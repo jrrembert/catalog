@@ -12,7 +12,7 @@ something (somehow) explodes. Unless it explodes into a
 rainbow of mutant dinosaurs made out of cookie batter.
 Then I assume complete credit.
 """
-from flask import Flask, render_template
+from flask import Flask, render_template, jsonify
 
 from sqlalchemy import create_engine, asc
 from sqlalchemy.orm import sessionmaker
@@ -37,7 +37,29 @@ session = DBSession()
 
 ##### JSON API endpoints #####
 
+@app.route('/sports/JSON')
+def show_sports_json():
+    sports = session.query(Sports).all()
+    return jsonify(sports=([s.serialize for s in sports]))
 
+
+@app.route('/teams/JSON')
+def show_teams_json():
+    teams = session.query(Teams).all()
+    return jsonify(teams=([t.serialize for t in teams]))
+
+
+@app.route('/sports/<int:sport_id>/teams/JSON')
+def show_sport_teams_json(sport_id):
+    sports = session.query(Sports).filter_by(id=sport_id).one()
+    teams = session.query(Teams).filter_by(sport_id=sport_id)
+    return jsonify(teams=([t.serialize for t in teams]))
+
+
+@app.route('/sports/<int:sport_id>/teams/<int:team_id>/JSON')
+def show_sport_teams_info_json(sport_id, team_id):
+    team = session.query(Teams).filter_by(id=team_id).one()
+    return jsonify(team=team.serialize)
 
 
 
@@ -56,12 +78,12 @@ def new_sport():
     pass
 
 
-@app.route('/sports/<int:sports_id>/edit')
+@app.route('/sports/<int:sport_id>/edit')
 def edit_sport(sport_id):
     pass
 
 
-@app.route('/sports/<int:sports_id>/delete')
+@app.route('/sports/<int:sport_id>/delete')
 def delete_sport(sport_id):
     pass
 
@@ -71,9 +93,8 @@ def delete_sport(sport_id):
 
 @app.route('/teams')
 def show_all_teams():
-    sports = session.query(Sports).order_by(asc(Sports.name))
     teams = session.query(Teams).order_by(asc(Teams.sport_id))
-    return render_template('teams.html', sports=sports, teams=teams)
+    return render_template('teams.html', teams=teams)
 
 
 @app.route('/sports/<int:sport_id>/teams')
