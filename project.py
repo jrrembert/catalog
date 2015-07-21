@@ -35,22 +35,71 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
 
+##### JSON API endpoints #####
 
+
+
+
+
+##### Sport page routes #####
 
 @app.route('/')
 @app.route('/sports')
 def show_sports():
-    sports = session.query(Sports).order_by(asc(Sports.name))
+    sports = session.query(Sports).order_by(asc(Sports.name)).all()
+    
     return render_template('sports.html', sports=sports)
 
 
+@app.route('/sports/new')
+def new_sport():
+    pass
+
+
+@app.route('/sports/<int:sports_id>/edit')
+def edit_sport(sport_id):
+    pass
+
+
+@app.route('/sports/<int:sports_id>/delete')
+def delete_sport(sport_id):
+    pass
+
+
+##### Team page routes #####
 
 
 @app.route('/teams')
-def show_teams():
+def show_all_teams():
     sports = session.query(Sports).order_by(asc(Sports.name))
-    teams = session.query(Teams).order_by(asc(Teams.name))
+    teams = session.query(Teams).order_by(asc(Teams.sport_id))
     return render_template('teams.html', sports=sports, teams=teams)
+
+
+@app.route('/sports/<int:sport_id>/teams')
+def show_sports_teams(sport_id):
+    sports = session.query(Sports).filter_by(id=sport_id).one()
+    teams = session.query(Teams).filter_by(sport_id=sport_id).all()
+    return render_template('sportteams.html', sports=sports, teams=teams)
+
+
+@app.route('/teams/<int:sport_id>/new')
+def new_team(sport_id):
+    pass
+
+
+
+@app.route('/sports/<int:sport_id>/teams/<int:team_id>/edit')
+def new_team(sport_id, team_id):
+    pass
+
+
+
+@app.route('/teams/<int:sport_id>/teams/<int:team_id>/delete')
+def new_team(sport_id, team_id):
+    pass
+
+
 
 
 
