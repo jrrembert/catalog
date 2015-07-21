@@ -12,7 +12,9 @@ something (somehow) explodes. Unless it explodes into a
 rainbow of mutant dinosaurs made out of cookie batter.
 Then I assume complete credit.
 """
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, request, redirect, url_for
+from flask import flash
+
 
 from sqlalchemy import create_engine, asc
 from sqlalchemy.orm import sessionmaker
@@ -73,19 +75,41 @@ def show_sports():
     return render_template('sports/sports.html', sports=sports)
 
 
-@app.route('/sports/new')
+@app.route('/sports/new', methods=['GET', 'POST'])
 def new_sport():
-    pass
+    if request.method == 'POST':
+        new_sport = Sports(name=request.form['name'])
+        session.add(new_sport)
+        flash("New sport added: {0}".format(new_sport.name))
+        session.commit()
+        return redirect(url_for('show_sports'))
+    else:
+        return render_template('sports/sportsnew.html')
 
 
-@app.route('/sports/<int:sport_id>/edit')
+@app.route('/sports/<int:sport_id>/edit', methods=['GET', 'POST'])
 def edit_sport(sport_id):
-    pass
+    edited_sport = session.query(Sports).filter_by(id=sport_id).one()
+    if request.method == 'POST':
+        if request.form['name']:
+            edited_sport.name = request.form['name']
+            flash("Sport successfully edited: {0}".format(edited_sport.name))
+            return redirect(url_for('show_sports'))
+    else:
+        return render_template('/sports/editsports.html', sport=edited_sport)
 
 
-@app.route('/sports/<int:sport_id>/delete')
+@app.route('/sports/<int:sport_id>/delete', methods=['GET', 'POST'])
 def delete_sport(sport_id):
-    pass
+    deleted_sport = session.query(Sports).filter_by(id=sport_id).one()
+    if request.method == 'POST':
+        session.delete(deleted_sport)
+        session.commit()
+        flash("Sport successfully deleted: {0}".format(deleted_sport.name))
+        return redirect(url_for('show_sports'))
+    else:
+        return render_template('/sports/deletesports.html', sport=deleted_sport)
+
 
 
 ##### Team page routes #####
@@ -99,6 +123,7 @@ def show_all_teams():
 
 @app.route('/sports/<int:sport_id>/teams')
 def show_sports_teams(sport_id):
+    """Show all teams within a given sport."""
     sports = session.query(Sports).filter_by(id=sport_id).one()
     teams = session.query(Teams).filter_by(sport_id=sport_id).all()
     return render_template('teams/sportteams.html', sports=sports, teams=teams)
@@ -118,7 +143,14 @@ def new_team(sport_id, team_id):
 
 @app.route('/teams/<int:sport_id>/teams/<int:team_id>/delete')
 def new_team(sport_id, team_id):
-    pass
+    sport = session.query(Sports).filter_by(id=sport_id).one()
+    deleted_team = session.query(Teams).filter_by(id=team_id).one()
+    if request.method == 'POST':
+        session.delete(deleted_team)
+        flash("Sport successfully deleted: {0}".format(deleted_sport.name))
+        return redirect(url_for('show_sports'))
+    else:
+        return render_template('/sports/deletesports.html', sport=deleted_sport)
 
 
 
