@@ -17,7 +17,7 @@ from flask import Flask, render_template, jsonify
 from sqlalchemy import create_engine, asc
 from sqlalchemy.orm import sessionmaker
 
-from database_setup import Base, Sports, Teams
+from models import Base, Sports, Teams
 
 
 
