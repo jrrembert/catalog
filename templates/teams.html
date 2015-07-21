@@ -1,0 +1,16 @@
+{% extends "index.html" %}
+{% block centent %}
+
+<div>
+    {% for team in teams %}
+    <p>
+        {{ team.name }}
+    </p>
+    {% endfor %}
+</div>
+
+
+
+
+
+{% endblock %}

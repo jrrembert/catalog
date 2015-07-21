@@ -1,0 +1,18 @@
+{% extends "index.html" %}
+{% block centent %}
+
+<div>
+    {% for restaurant in restaurants %}
+    <p>
+        {{ restaurant.name }}
+    </p>
+    {% endfor %}
+</div>
+
+
+
+
+
+
+
+{% endblock %}
