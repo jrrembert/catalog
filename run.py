@@ -17,7 +17,7 @@ from flask import Flask, render_template, jsonify
 from sqlalchemy import create_engine, asc
 from sqlalchemy.orm import sessionmaker
 
-from models import Base, Sports, Teams
+from app.models import Base, Sports, Teams
 
 
 
@@ -70,7 +70,7 @@ def show_sport_teams_info_json(sport_id, team_id):
 def show_sports():
     sports = session.query(Sports).order_by(asc(Sports.name)).all()
     
-    return render_template('sports.html', sports=sports)
+    return render_template('sports/sports.html', sports=sports)
 
 
 @app.route('/sports/new')
@@ -94,14 +94,14 @@ def delete_sport(sport_id):
 @app.route('/teams')
 def show_all_teams():
     teams = session.query(Teams).order_by(asc(Teams.sport_id))
-    return render_template('teams.html', teams=teams)
+    return render_template('teams/teams.html', teams=teams)
 
 
 @app.route('/sports/<int:sport_id>/teams')
 def show_sports_teams(sport_id):
     sports = session.query(Sports).filter_by(id=sport_id).one()
     teams = session.query(Teams).filter_by(sport_id=sport_id).all()
-    return render_template('sportteams.html', sports=sports, teams=teams)
+    return render_template('teams/sportteams.html', sports=sports, teams=teams)
 
 
 @app.route('/teams/<int:sport_id>/new')
