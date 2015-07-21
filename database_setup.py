@@ -42,6 +42,14 @@ class Sports(Base):
     user = relationship(Users)
     user_id = Column(Integer, ForeignKey('users.id'))
 
+    @property
+    def serialize(self):
+        """Return object data in easily serializeable format"""
+        return {
+            'name': self.name,
+            'id': self.id
+        }
+
     
 class Teams(Base):
     __tablename__ = 'teams'
@@ -56,7 +64,18 @@ class Teams(Base):
     sport_id = Column(Integer, ForeignKey('sports.id'))
     sport = relationship(Sports)
 
-
+    @property
+    def serialize(self):
+        """Return object data in easily serializeable format"""
+        return {
+            'name': self.name,
+            'id': self.id,
+            'wins': self.wins,
+            'losses': self.losses,
+            'league': self.league,
+            'user_id': self.user_id,
+            'sport': self.sport_id
+        }
 
 
 # class Leagues(Base):
