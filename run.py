@@ -117,6 +117,7 @@ def delete_sport(sport_id):
 
 @app.route('/teams')
 def show_all_teams():
+    sports = session.query(Sports).all()
     teams = session.query(Teams).order_by(asc(Teams.sport_id))
     return render_template('teams/teams.html', teams=teams)
 
@@ -129,28 +130,49 @@ def show_sports_teams(sport_id):
     return render_template('teams/sportteams.html', sports=sports, teams=teams)
 
 
+@app.route('/sports/<int:sport_id>/teams/<int:team_id>')
+def show_team(sport_id, team_id):
+    team = session.query(Teams).filter_by(id=team_id).one()
+    return render_template('/teams/team.html', team=team)
+
+
 @app.route('/teams/<int:sport_id>/new')
 def new_team(sport_id):
     pass
 
 
 
-@app.route('/sports/<int:sport_id>/teams/<int:team_id>/edit')
-def new_team(sport_id, team_id):
-    pass
+@app.route('/sports/<int:sport_id>/teams/<int:team_id>/edit', methods=['GET', 'POST'], endpoint='edit_sport_teams')
+@app.route('/teams/<int:team_id>/edit', methods=['GET', 'POST'], endpoint='edit_all_teams')
+def edit_team(sport_id, team_id):
+    
+    resource_root = request.url.split('/')[3]  # Get first element in app.route
+    print(resource_root)
+    edited_team = session.query(Teams).filter_by(id=team_id).one()
+    if request.method == 'POST':
+        if request.form['name']:
+            edited_team.name = request.form['name']
+            flash("Sport successfully edited: {0}".format(edited_team.name))
+            if resource_root == 'sports':
+                return redirect(url_for('show_sports_teams', sport_id=sport_id))
+            else:
+                return redirect(url_for('show_all_teams'))
+    else:
+        return render_template('/teams/editteam.html', team=edited_team)
 
 
 
-@app.route('/teams/<int:sport_id>/teams/<int:team_id>/delete')
-def new_team(sport_id, team_id):
+@app.route('/sports/<int:sport_id>/teams/<int:team_id>/delete', methods=['GET', 'POST'])
+def delete_team(sport_id, team_id):
     sport = session.query(Sports).filter_by(id=sport_id).one()
     deleted_team = session.query(Teams).filter_by(id=team_id).one()
     if request.method == 'POST':
         session.delete(deleted_team)
-        flash("Sport successfully deleted: {0}".format(deleted_sport.name))
-        return redirect(url_for('show_sports'))
+        #session.commit()
+        flash("Sport successfully deleted: {0}".format(deleted_team.name))
+        return redirect(url_for('show_sports_teams', sport_id=sport_id))
     else:
-        return render_template('/sports/deletesports.html', sport=deleted_sport)
+        return render_template('/teams/deleteteams.html', team=deleted_team)
 
 
 
