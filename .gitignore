@@ -59,6 +59,9 @@ target/
 # Vagrant stuff
 .vagrant/
 
-# sqlite 
+# SQLite stuff 
 *.db
 *.db-journal
+
+# Project stuff
+local_config.py
