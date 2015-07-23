@@ -32,9 +32,11 @@ app = Flask(__name__)
 engine = create_engine(DATABASE_URI)
 Base.metadata.bind = engine
 
-# Bind Base class metadata to engine to use declaratives in a DBSession()
-DBSession = sessionmaker(bind=engine)
-session = DBSession()
+# Creates a configured "Session" class factory
+db_session = sessionmaker(bind=engine)
+
+# Create a Session class
+session = db_session()
 
 
 ##### JSON API endpoints #####
