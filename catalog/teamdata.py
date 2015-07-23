@@ -3,15 +3,15 @@ from flask import Flask
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from database_setup import Sports, Base, Teams, Users
+from models import Sports, Base, Teams, Users
 
-
+from config import DATABASE_URI
 app = Flask(__name__)
 
 # Load config variables
-app.config.from_object('config.DevelopmentConfig')
 
-engine = create_engine(app.config['DATABASE_URI'])
+
+engine = create_engine(DATABASE_URI)
 # Bind the engine to the metadata of the Base class so that the
 # declaratives can be accessed through a DBSession instance
 Base.metadata.bind = engine

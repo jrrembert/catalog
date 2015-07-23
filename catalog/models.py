@@ -18,11 +18,16 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 
-app = Flask(__name__)
 
-# Load config variables
-app.config.from_object('config.DevelopmentConfig')
+from config import DATABASE_URI
+
+
+
+
+
 Base = declarative_base()
+
+
 
 
 class Users(Base):
@@ -33,6 +38,14 @@ class Users(Base):
     email = Column(String(75), nullable=False)
     picture = Column(String(250))
 
+    def __init__(self, name=None, email=None, picture=None):
+        self.name = name
+        self.email = email
+        self.picture = picture
+
+    def __repr__(self):
+        return "<Users {0} : {1}".format(self.name, self.email)
+
 
 class Sports(Base):
     __tablename__ = 'sports'
@@ -41,6 +54,13 @@ class Sports(Base):
     name = Column(String(100), nullable=False)
     user = relationship(Users)
     user_id = Column(Integer, ForeignKey('users.id'))
+
+    def __init__(self, user_id=None, name=None):
+        self.user_id = user_id
+        self.name = name
+
+    def __repr__(self):
+        return "<Sports {0}".format(self.name)
 
     @property
     def serialize(self):
@@ -64,6 +84,18 @@ class Teams(Base):
     sport_id = Column(Integer, ForeignKey('sports.id'))
     sport = relationship(Sports)
 
+    def __init__(self, user_id=None, name=None, wins=None, 
+                 losses=None, league=None, sport=None):
+        self.user_id = user_id
+        self.name = name
+        self.wins = wins
+        self.losses = losses
+        self.league = league
+        self.sport = sport
+
+    def __repr__(self):
+        return "<Teams {0}".format(self.name)
+
     @property
     def serialize(self):
         """Return object data in easily serializeable format"""
@@ -78,26 +110,28 @@ class Teams(Base):
         }
 
 
-# class Leagues(Base):
-#     __tablename__ = 'leagues'
+# # class Leagues(Base):
+# #     __tablename__ = 'leagues'
 
-#     id = Column(Integer, primary_key=True)
-#     name = Column(String(100), nullable=False)
-#     user = relationship(Users)
-#     user_id = Column(Integer, ForeignKey('users.id'))
-
-
-# class Players(Base:)
-#     __tablename__ = 'players'
-
-#     id = Column(Integer, primary_key=True)
-#     name = Column(String(100), nullable=False)
-#     user = relationship(Users)
-#     user_id = Column(Integer, ForeignKey('users.id')) 
+# #     id = Column(Integer, primary_key=True)
+# #     name = Column(String(100), nullable=False)
+# #     user = relationship(Users)
+# #     user_id = Column(Integer, ForeignKey('users.id'))
 
 
-# Prepare a database by createing an Engine object
-engine = create_engine(app.config['DATABASE_URI'])
+# # class Players(Base:)
+# #     __tablename__ = 'players'
 
-# Create our tables
+# #     id = Column(Integer, primary_key=True)
+# #     name = Column(String(100), nullable=False)
+# #     user = relationship(Users)
+# #     user_id = Column(Integer, ForeignKey('users.id')) 
+
+
+# Create an engine that stores data in the local directory's
+# sqlalchemy_example.db file.
+engine = create_engine(DATABASE_URI)
+ 
+# Create all tables in the engine. This is equivalent to "Create Table"
+# statements in raw SQL.
 Base.metadata.create_all(engine)

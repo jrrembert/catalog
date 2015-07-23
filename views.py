@@ -12,29 +12,47 @@ something (somehow) explodes. Unless it explodes into a
 rainbow of mutant dinosaurs made out of cookie batter.
 Then I assume complete credit.
 """
-from flask import Flask, render_template, jsonify, request, redirect, url_for
+from flask import Blueprint, Flask, render_template, jsonify, request, redirect, url_for
 from flask import flash
 
 
 from sqlalchemy import create_engine, asc
 from sqlalchemy.orm import sessionmaker
 
-from catalog.models import Base, Sports, Teams
 
-from config import DATABASE_URI
-
-app = Flask(__name__)
+from database import db_session
+from models import Sports, Teams
 
 
 
-# Connect to Database and create database session
 
-engine = create_engine(DATABASE_URI)
-Base.metadata.bind = engine
+app = Flask(__file__)
 
-# Bind Base class metadata to engine to use declaratives in a DBSession()
-DBSession = sessionmaker(bind=engine)
-session = DBSession()
+
+@app.teardown_appcontext
+def shutdown_session(exception=None):
+    """ Automatically remove database sessions at end of request
+        or when application shuts down.
+    """
+    db_session.remove()
+
+
+# catalog = Blueprint('catalog', __name__, url_prefix='/')
+
+
+# # Connect to Database and create database session
+
+# engine = create_engine(app.config['DATABASE_URI'])
+# Base.metadata.bind = engine
+
+# # Bind Base class metadata to engine to use declaratives in a DBSession()
+# db_session = sessionmaker(bind=engine)
+# session = db_session()
+
+
+
+
+
 
 
 ##### JSON API endpoints #####
@@ -142,8 +160,8 @@ def new_team(sport_id):
 
 
 
-@app.route('/sports/<int:sport_id>/teams/<int:team_id>/edit', methods=['GET', 'POST'], endpoint='edit_sport_teams')
-@app.route('/teams/<int:team_id>/edit', methods=['GET', 'POST'], endpoint='edit_all_teams')
+@app.route('/sports/<int:sport_id>/teams/<int:team_id>/edit', methods=['GET', 'POST'])
+@app.route('/teams/<int:team_id>/edit', methods=['GET', 'POST'])
 def edit_team(sport_id, team_id):
     
     resource_root = request.url.split('/')[3]  # Get first element in app.route
@@ -179,5 +197,4 @@ def delete_team(sport_id, team_id):
 
 
 if __name__ == '__main__':
-
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5000)
