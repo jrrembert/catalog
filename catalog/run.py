@@ -19,7 +19,7 @@ from flask import flash
 from sqlalchemy import create_engine, asc
 from sqlalchemy.orm import sessionmaker
 
-from catalog.models import Base, Sports, Teams
+from models import Base, Sports, Teams
 
 from config import DATABASE_URI
 

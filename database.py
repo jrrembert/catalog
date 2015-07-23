@@ -18,9 +18,11 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
 from config import DATABASE_URI
-app = Flask(__file__)
+
+
+
 # Prepare and connect to database
-engine = create_engine(app.config['DATABASE_URI'], convert_unicode=True)
+engine = create_engine(DATABASE_URI, convert_unicode=True)
 
 # A scoped_session handles threading automatically
 db_session = scoped_session(sessionmaker(autocommit=False,
@@ -35,5 +37,5 @@ def init_db():
         will be property registered on the metadata. Otherwise
         they will have be imported first before calling init_db().
     """
-    import app.models
+    import catalog.models
     Base.metadata.create_all(bind=engine)

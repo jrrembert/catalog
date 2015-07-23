@@ -18,17 +18,15 @@ import tempfile
 
 from flask import Flask
 
-
-
-
-
-
-app = Flask(__file__)
 from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 
 from models import Sports, Base, Teams, Users
 
 from config import DATABASE_URI
+
+from run import app
+
 
 
 
@@ -41,23 +39,40 @@ from config import DATABASE_URI
 
 class CatalogTestCase(unittest.TestCase):
 
+
+
     def setUp(self):
         # sqlite is a filesystem-based db so just create temp file
-        self.db_fd, app.config['TEST_DATABASE_URI'] = tempfile.mkstemp()
+        # db_fd is an integer value needed to call os.close() on the file.
+        self.db_fd, self.db_name = tempfile.mkstemp()
+        self.app = app
+        
+
+
         app.config['TESTING'] = True
-        client =  app.test_client()
-        engine = create_engine(self.db_fd)
+        self.app.config.update(dict(
+            TESTING=True,
+            DATABASE="sqlite://{0}".format(self.db_name)
+            ))
+
+
+        self.client = self.app.test_client()
+        engine = create_engine(app.config['DATABASE'])
         Base.metadata.bind = engine
         db_session = sessionmaker(bind=engine)
         session = db_session()
+        print(app.__dict__)
 
     def tearDown(self):
         os.close(self.db_fd)
-        os.unlink(app.config['TEST_DATABASE_URI'])
+        os.unlink(self.db_name)
+
+
 
     def test_empty_db(self):
-        root = client.get('/')
-        assert 'this thing' in root.data
+        root = self.client.get('/')
+        print(root.data)
+        self.assertIn('Football', root.data)
 
 
 if __name__ == '__main__':
