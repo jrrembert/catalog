@@ -33,76 +33,55 @@ user1 = Users(name="J. Ryan Rembert", email="rynliquid@gmail.com",
 session.add(user1)
 
 # Teams for Baseball
-sport1 = Sports(user_id=1, name="Baseball")
-session.add(sport1)
+sports = [Sports(user_id=1, name="Baseball"),
+          Sports(user_id=1, name="Football"),
+          Sports(user_id=1, name="Basketball")]
+session.add_all(sports)
 
-team1 = Teams(user_id=1, name="Atlanta Braves", wins=10, losses=5, 
-              league = 'NL', sport=sport1)
-session.add(team1)
 
-team2 = Teams(user_id=1, name="St. Louis Cardinals", wins=10, losses=5, 
-              league = 'NL', sport=sport1)
-session.add(team2)
+baseball_teams = [Teams(user_id=1, name="Atlanta Braves", wins=10,
+                        losses=5, league = 'NL', sport=sports[0]),
+                  Teams(user_id=1, name="St. Louis Cardinals", wins=10, losses=5, 
+                        league = 'NL', sport=sport1),
+                  Teams(user_id=1, name="Los Angeles Dodgers", wins=10, losses=5, 
+                        league = 'NL', sport=sport1),
+                  Teams(user_id=1, name="Texas Rangers", wins=10, losses=5, 
+                        league = 'AL', sport=sport1),
+                  Teams(user_id=1, name="Tampa Bay Rays", wins=10, losses=5, 
+                        league = 'AL', sport=sport1)]
 
-team3 = Teams(user_id=1, name="Los Angeles Dodgers", wins=10, losses=5, 
-              league = 'NL', sport=sport1)
-session.add(team3)
+session.add_all(baseball_teams)
 
-team4 = Teams(user_id=1, name="Texas Rangers", wins=10, losses=5, 
-              league = 'AL', sport=sport1)
-session.add(team4)
+# Teams for Football
 
-team5 = Teams(user_id=1, name="Tampa Bay Rays", wins=10, losses=5, 
-              league = 'AL', sport=sport1)
-session.add(team5)
 
-# Teams for Baseball
-sport2 = Sports(user_id=1, name="Football")
-session.add(sport2)
+football_teams = [Teams(user_id=1, name="Atlanta Falcons", wins=10, 
+                        losses=5, league = 'AFC', sport=sport2),
+                  Teams(user_id=1, name="New England Patriots", wins=10, losses=5, 
+                        league = 'AFC', sport=sport2),
+                  Teams(user_id=1, name="Indianapolis Colts", wins=10, losses=5, 
+                        league = 'AFC', sport=sport2),
+                  Teams(user_id=1, name="Denver Broncos", wins=10, losses=5, 
+                        league = 'NFC', sport=sport2),
+                  Teams(user_id=1, name="Seattle Seahawks", wins=10, losses=5, 
+                         league = 'NFC', sport=sport2)]
 
-team6 = Teams(user_id=1, name="Atlanta Falcons", wins=10, losses=5, 
-              league = 'AFC', sport=sport2)
-session.add(team6)
-
-team7 = Teams(user_id=1, name="New England Patriots", wins=10, losses=5, 
-              league = 'AFC', sport=sport2)
-session.add(team7)
-
-team8 = Teams(user_id=1, name="Indianapolis Colts", wins=10, losses=5, 
-              league = 'AFC', sport=sport2)
-session.add(team8)
-
-team9 = Teams(user_id=1, name="Denver Broncos", wins=10, losses=5, 
-              league = 'NFC', sport=sport2)
-session.add(team9)
-
-team10 = Teams(user_id=1, name="Seattle Seahawks", wins=10, losses=5, 
-              league = 'NFC', sport=sport2)
-session.add(team10)
+session.add_all(football_teams)
 
 # Teams for Baseball
-sport3 = Sports(user_id=1, name="Basketball")
-session.add(sport3)
 
-team11 = Teams(user_id=1, name="Atlanta Hawks", wins=10, losses=5, 
-              league = 'Eastern Conference', sport=sport3)
-session.add(team11)
+basketball_teams = [Teams(user_id=1, name="Atlanta Hawks", wins=10, 
+                          losses=5, league = 'Eastern Conference', sport=sport3),
+                    Teams(user_id=1, name="Indiana Pacers", wins=10, 
+                          losses=5, league = 'Eastern Conference', sport=sport3),
+                    Teams(user_id=1, name="Detroit Pistons", wins=10, 
+                          losses=5, league = 'Eastern Conference', sport=sport3),
+                    Teams(user_id=1, name="Los Angeles Clippers", wins=10, 
+                          losses=5, league = 'Western Conference', sport=sport3),
+                    Teams(user_id=1, name="Denver Nuggets", wins=10, 
+                          losses=5, league = 'Western Conference', sport=sport3)
 
-team12 = Teams(user_id=1, name="Indiana Pacers", wins=10, losses=5, 
-              league = 'Eastern Conference', sport=sport3)
-session.add(team12)
-
-team13 = Teams(user_id=1, name="Detroit Pistons", wins=10, losses=5, 
-              league = 'Eastern Conference', sport=sport3)
-session.add(team13)
-
-team14 = Teams(user_id=1, name="Los Angeles Clippers", wins=10, losses=5, 
-              league = 'Western Conference', sport=sport3)
-session.add(team14)
-
-team15 = Teams(user_id=1, name="Denver Nuggets", wins=10, losses=5, 
-              league = 'Western Conference', sport=sport3)
-session.add(team15)
+session.add_all(basketball_teams)
 session.commit()
 
 print "added some teams."

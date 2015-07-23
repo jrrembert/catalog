@@ -44,7 +44,7 @@ class Users(Base):
         self.picture = picture
 
     def __repr__(self):
-        return "<Users {0} : {1}".format(self.name, self.email)
+        return "<Users(name={0}, email={1})>".format(self.name, self.email)
 
 
 class Sports(Base):
@@ -60,7 +60,7 @@ class Sports(Base):
         self.name = name
 
     def __repr__(self):
-        return "<Sports {0}".format(self.name)
+        return "<Sports(name={0})>".format(self.name)
 
     @property
     def serialize(self):
@@ -94,7 +94,7 @@ class Teams(Base):
         self.sport = sport
 
     def __repr__(self):
-        return "<Teams {0}".format(self.name)
+        return "<Teams(name={0})>".format(self.name)
 
     @property
     def serialize(self):
