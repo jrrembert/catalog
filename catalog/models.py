@@ -12,7 +12,7 @@ something (somehow) explodes. Unless it explodes into a
 rainbow of mutant dinosaurs made out of cookie batter.
 Then I assume complete credit.
 """ 
-from flask import Flask
+
 from sqlalchemy import Column, ForeignKey, Integer, String
 from sqlalchemy import create_engine
 from sqlalchemy.orm import relationship
@@ -22,6 +22,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from config import DATABASE_URI
 
 
+from catalog import db
 
 
 
@@ -30,7 +31,7 @@ Base = declarative_base()
 
 
 
-class Users(Base):
+class Users(db.Model):
     __tablename__ = 'users'
 
     id = Column(Integer, primary_key=True)
@@ -47,7 +48,7 @@ class Users(Base):
         return "<Users(name={0}, email={1})>".format(self.name, self.email)
 
 
-class Sports(Base):
+class Sports(db.Model):
     __tablename__ = 'sports'
 
     id = Column(Integer, primary_key=True)
@@ -71,7 +72,7 @@ class Sports(Base):
         }
 
     
-class Teams(Base):
+class Teams(db.Model):
     __tablename__ = 'teams'
     
     id = Column(Integer, primary_key=True)
@@ -130,8 +131,9 @@ class Teams(Base):
 
 # Create an engine that stores data in the local directory's
 # sqlalchemy_example.db file.
-engine = create_engine(DATABASE_URI)
+#engine = create_engine(DATABASE_URI)
  
 # Create all tables in the engine. This is equivalent to "Create Table"
 # statements in raw SQL.
-Base.metadata.create_all(engine)
+#Base.metadata.create_all(engine)
+db.create_all()
