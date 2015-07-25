@@ -12,6 +12,16 @@ something (somehow) explodes. Unless it explodes into a
 rainbow of mutant dinosaurs made out of cookie batter.
 Then I assume complete credit.
 """
+
+
+
+
+
+
+
+import sys
+
+
 from flask import Flask, render_template, jsonify, request, redirect, url_for
 from flask import flash
 
@@ -19,22 +29,50 @@ from flask import flash
 from sqlalchemy import create_engine, asc
 from sqlalchemy.orm import sessionmaker
 
-from models import Base, Sports, Teams
 
-from config import DATABASE_URI
+# sys.path.append('~/Projects/catalog/catalog')
+# print(sys.path)
 
-app = Flask(__name__)
+from models import Sports, Teams
 
 
 
-# Connect to Database and create database session
+from config import SQLALCHEMY_DATABASE_URI
+from models import app, db
 
-engine = create_engine(DATABASE_URI)
-Base.metadata.bind = engine
 
-# Bind Base class metadata to engine to use declaratives in a DBSession()
-DBSession = sessionmaker(bind=engine)
-session = DBSession()
+
+# app = Flask(__name__)
+
+
+
+# catalog = Blueprint('catalog', __name__, url_prefix='/')
+
+
+
+
+# # Connect to Database and create database session
+
+# engine = create_engine(DATABASE_URI)
+# Base.metadata.bind = engine
+
+# # Creates a configured "Session" class factory
+# db_session = sessionmaker(bind=engine)
+
+# # Create a Session class
+# session = db_session()
+
+session = db.session
+
+
+@app.teardown_appcontext
+def shutdown_session(exception=None):
+    """ Automatically remove database sessions at end of request
+        or when application shuts down.
+    """
+    db_session.remove()
+
+
 
 
 ##### JSON API endpoints #####
