@@ -23,7 +23,7 @@ BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 # Define the database we are working with
 # Note: This path will not play nice with Vagrant synced folders.
 #       Make sure path corresponds to environment where you run your code.
-SQLALCHEMY_DATABASE_URI = 'sqlite://{0}/app.db'.format(BASE_DIR)
+SQLALCHEMY_DATABASE_URI = 'sqlite:///{0}/app.db'.format(BASE_DIR)
 DATABASE_CONNECT_OPTIONS = {}
 
 # Application threads. A common general assumption is

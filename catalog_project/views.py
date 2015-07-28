@@ -38,7 +38,7 @@ from models import Sports, Teams
 
 
 from config import SQLALCHEMY_DATABASE_URI
-from models import app, db
+from catalog_project import app, db
 
 
 
@@ -216,6 +216,6 @@ def delete_team(sport_id, team_id):
 
 
 
-if __name__ == '__main__':
+# if __name__ == '__main__':
 
-    app.run(host='0.0.0.0', port=5000, debug=True)
+#     app.run(host='0.0.0.0', port=5000, debug=True)

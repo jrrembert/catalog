@@ -19,15 +19,8 @@ from sqlalchemy.orm import relationship
 
 from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
-from catalog2.models import *
 
-
-app = Flask(__name__)
-app.config.from_object('config')
-# Uncomment this is you want to use a class/inheritance config model
-# app.config.from_object('catalog.config.DevelopmentConfig')
-
-db = SQLAlchemy(app)
+from catalog_project import app, db
 
 
 
@@ -141,4 +134,4 @@ class Teams(db.Model):
 # Create all tables in the engine. This is equivalent to "Create Table"
 # statements in raw SQL.
 # Base.metadata.create_all(engine)
-db.create_all()
+
