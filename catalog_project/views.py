@@ -70,7 +70,7 @@ def shutdown_session(exception=None):
     """ Automatically remove database sessions at end of request
         or when application shuts down.
     """
-    db_session.remove()
+    session.remove()
 
 
 
