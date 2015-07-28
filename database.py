@@ -17,25 +17,24 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
-from config import DATABASE_URI
+from catalog_project import db
 
 
+# # Prepare and connect to database
+# engine = create_engine(DATABASE_URI, convert_unicode=True)
 
-# Prepare and connect to database
-engine = create_engine(DATABASE_URI, convert_unicode=True)
+# # A scoped_session handles threading automatically
+# db_session = scoped_session(sessionmaker(autocommit=False,
+#                                          autoflush=False,
+#                                          bind=engine))
 
-# A scoped_session handles threading automatically
-db_session = scoped_session(sessionmaker(autocommit=False,
-                                         autoflush=False,
-                                         bind=engine))
-
-Base = declarative_base()
-Base.query = db_session.query_property()
+# Base = declarative_base()
+# Base.query = db_session.query_property()
 
 def init_db():
     """ Import all modules that might define models so they
         will be property registered on the metadata. Otherwise
         they will have be imported first before calling init_db().
     """
-    import catalog.models
-    Base.metadata.create_all(bind=engine)
+    import catalog_project.models
+    db.create_all()
