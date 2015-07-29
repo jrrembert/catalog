@@ -2,8 +2,19 @@
 {% block content %}
 {% include "includes/header.html" %}
 
-
 <div>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <p>
+                {% for message in messages %}
+                    {{ messages }}
+                {% endfor %}
+            </p>
+        {% endif %}
+    {% endwith %}
+
+    <a href={{ url_for("new_team", sport_id=sports.id) }}>Add a new team</a>
+
     {% for team in teams %}
     <p>
         {{ team.name }}
@@ -12,9 +23,5 @@
     </p>
     {% endfor %}
 </div>
-
-
-
-
 
 {% endblock %}

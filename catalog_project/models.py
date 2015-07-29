@@ -83,14 +83,14 @@ class Teams(db.Model):
     sport_id = db.Column(db.Integer, db.ForeignKey('sports.id'))
     sport = db.relationship(Sports)
 
-    def __init__(self, user_id=None, name=None, wins=None, 
-                 losses=None, league=None, sport=None):
+    def __init__(self, user_id=None, sport_id=None, name=None, wins=None, 
+                 losses=None, league=None):
         self.user_id = user_id
         self.name = name
         self.wins = wins
         self.losses = losses
         self.league = league
-        self.sport = sport
+        self.sport_id = sport_id
 
     def __repr__(self):
         return "<Teams(name={0})>".format(self.name)
@@ -105,7 +105,7 @@ class Teams(db.Model):
             'losses': self.losses,
             'league': self.league,
             'user_id': self.user_id,
-            'sport': self.sport_id
+            'sport_id': self.sport_id
         }
 
 

@@ -9,6 +9,4 @@ app.config.from_object('catalog_project.config')
 
 db = SQLAlchemy(app)
 
-
-
 from catalog_project import views

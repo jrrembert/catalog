@@ -2,38 +2,27 @@
 {% block content %}
 {% include "includes/header.html" %}
 
-
-
-
 <div>
     {% with messages = get_flashed_messages() %}
         {% if messages %}
             <p>
                 {% for message in messages %}
-                {{ messages }}
+                    {{ messages }}
                 {% endfor %}
             </p>
         {% endif %}
     {% endwith %}
 
-
-
+    <a href={{ url_for("new_sport") }}>Add a new sport</a>
 
     {% for sport in sports %}
     <p>
-
         {{ sport.name }}
         <a href={{ url_for("edit_sport", sport_id=sport.id) }}>Edit</a>
         <a href={{ url_for("delete_sport", sport_id=sport.id) }}>Delete</a>
-
+        <a href={{ url_for("show_sports_teams", sport_id=sport.id) }}>Show all {{ sport.name }} teams</a>
     </p>
     {% endfor %}
 </div>
-
-
-
-
-
-
 
 {% endblock %}
