@@ -16,7 +16,7 @@ echo "This is to be run from within the provided VM."
 echo "Running outside the VM could have unintended effects."
 
 while true; do
-	read -p "Do you wish to run this script?" yn
+	read -p "Do you wish to run this script (y or n)? " yn
 	case $yn in
 		[Yy]* ) setup;;
 		[Nn]* ) exit;;
