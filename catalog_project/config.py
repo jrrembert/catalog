@@ -12,11 +12,15 @@ something (somehow) explodes. Unless it explodes into a
 rainbow of mutant dinosaurs made out of cookie batter.
 Then I assume complete credit.
 """ 
+import json
+
+
 # Enable for development environment
 DEBUG = False
 
 # Define application directory
 import os
+
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
@@ -37,10 +41,21 @@ CSRF_ENABLED = True
 
 # Use a secure, unique and absolutely secret key for
 # signing the data. 
-CSRF_SESSION_KEY = "secret_csrf"
+CSRF_SESSION_KEY = "change_me"
 
 # Secret key for signing cookies
 SECRET_KEY = "secretsecrets"
+
+# Google Sign-In 
+CLIENT_SECRET_PATH = '/vagrant/client_secrets.json'
+OAUTH_CREDENTIALS = {
+    'google': {
+        'client_id': json.loads(
+            open(CLIENT_SECRET_PATH, 'r').read())['web']['client_id'],
+        'client_secret': json.loads(
+            open(CLIENT_SECRET_PATH, 'r').read())['web']['client_secret']
+    }
+}
 
 
 try:

@@ -33,8 +33,8 @@ class Users(db.Model):
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
-    email = db.Column(db.String(75), nullable=False)
+    name = db.Column(db.String(250), nullable=False)
+    email = db.Column(db.String(250), nullable=False)
     picture = db.Column(db.String(250))
 
     def __init__(self, name=None, email=None, picture=None):
@@ -44,6 +44,15 @@ class Users(db.Model):
 
     def __repr__(self):
         return "<Users(name={0}, email={1})>".format(self.name, self.email)
+
+    @property
+    def serialize(self):
+        """ Return object data in easily serializable format."""
+        return {
+            'name': self.name,
+            'email': self.email,
+            'picture': self.picture
+        }
 
 
 class Sports(db.Model):
@@ -63,7 +72,7 @@ class Sports(db.Model):
 
     @property
     def serialize(self):
-        """Return object data in easily serializeable format"""
+        """ Return object data in easily serializeable format."""
         return {
             'name': self.name,
             'id': self.id
