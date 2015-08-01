@@ -53,7 +53,8 @@ OAUTH_CREDENTIALS = {
         'client_id': json.loads(
             open(CLIENT_SECRET_PATH, 'r').read())['web']['client_id'],
         'client_secret': json.loads(
-            open(CLIENT_SECRET_PATH, 'r').read())['web']['client_secret']
+            open(CLIENT_SECRET_PATH, 'r').read())['web']['client_secret'],
+        'revoke_url': 'https://accounts.google.com/o/oauth2/revoke?token='
     }
 }
 

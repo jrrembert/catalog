@@ -139,7 +139,6 @@ def gconnect():
     pp = pprint.PrettyPrinter(indent=4)
     
     # Validate state token
-    print(request.args)
     if request.args.get('state') != login_session['state']:
         response = make_response(json.dumps('Invalid state parameter.'), 401)
         response.headers['Content-Type'] = 'application/json'
@@ -147,7 +146,7 @@ def gconnect():
 
     # Comment out to allow user to connect and disconnect without reloading
     # page.
-    # del session['state']
+    # del login_session['state']
 
     
     code = request.data
@@ -159,9 +158,8 @@ def gconnect():
             scope='')
         oauth_flow.redirect_uri = 'postmessage'
         authorize_url = oauth_flow.step1_get_authorize_url()
-        print("Authorize url is: %s" % authorize_url)
         credentials = oauth_flow.step2_exchange(code)
-        print("credentials: %s" % pp.pprint(credentials.__dict__))
+        
         # login_session['credentials'] = credentials.access_token
         # credentials = AccessTokenCredentials(login_session['credentials'], 'user-agent-value')
     except FlowExchangeError:
@@ -175,7 +173,6 @@ def gconnect():
     url = ('https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=%s' % access_token)
     h = httplib2.Http()
     result = json.loads(h.request(url, 'GET')[1])
-    pp.pprint(result)
     # If there was an error in the access token info, abort.
     if result.get('error') is not None:
         response = make_response(json.dumps(result.get('error')), 500)
@@ -206,16 +203,12 @@ def gconnect():
         return response
 
     # Store the access token in the session for later use
-    login_session['credentials'] = credentials.access_token
+    login_session['access_token'] = credentials.access_token
     login_session['gplus_id'] = gplus_id
-    
-    pp.pprint(login_session.items)
-
 
     
 
 
-    app.logger.info(credentials.__dict__)
     # Get user info
     userinfo_url = "https://www.googleapis.com/oauth2/v1/userinfo"
     params = {'access_token': credentials.access_token, 'alt': 'json'}
@@ -226,7 +219,7 @@ def gconnect():
 
     
 
-    app.logger.info(data)
+    
     login_session['username'] = data['name']
     login_session['picture'] = data['picture']
     login_session['email'] = data['email']
@@ -244,14 +237,40 @@ def gconnect():
     login_success += "style='width: 300px; height: 300px; border-radius: 150px; -webkit-border-radius: 150px; -moz-border-radius: 150px;'>"
     flash("You are now logged in as {0}".format(login_session['username']))
 
-    
-
     return login_success
 
 
 
+@app.route('/gdisconnect')
+def gdisconnect():
+    # We're not storing the entire credentials object in our login_session
+    credentials = login_session.get('access_token')
+    if credentials is None:
+        response = make_response(
+            json.dumps('Current user is not connected.'), 401)
+        response.headers['Content-Type'] = 'application/json'
+        return response
+    url = app.config['OAUTH_CREDENTIALS']['google']['revoke_url'] + "{0}".format(credentials)
+    h = httplib2.Http()
+    result = h.request(url, 'GET')[0]
+    if result['status'] == '200':
+        # Reset user's session
+        del login_session['access_token']
+        del login_session['gplus_id']
+        del login_session['username']
+        del login_session['email']
+        del login_session['picture']
 
-
+        response = make_response(json.dumps(
+            'User disconnected successfully.'), 200)
+        response.headers['Content-Type'] = 'application/json'
+        return response
+    else:
+        # For whatever reason, the given token was invalid.
+        response = make_response(
+            json.dumps("Failed to revoke token for given user.", 400))
+        response.headers['Content-Type'] = 'application/json'
+        return response
 
 
 
