@@ -47,21 +47,14 @@ CSRF_SESSION_KEY = "change_me"
 SECRET_KEY = "secretsecrets"
 
 # Google Sign-In 
-GOOGLE_CLIENT_SECRET_PATH = '/vagrant/client_secrets.json'
-GITHUB_CLIENT_SECRET_PATH = '/vagrant/client_secrets_github.json'
+CLIENT_SECRET_PATH = '/vagrant/client_secrets.json'
 OAUTH_CREDENTIALS = {
     'google': {
         'client_id': json.loads(
-            open(GOOGLE_CLIENT_SECRET_PATH, 'r').read())['web']['client_id'],
+            open(CLIENT_SECRET_PATH, 'r').read())['web']['client_id'],
         'client_secret': json.loads(
-            open(GOOGLE_CLIENT_SECRET_PATH, 'r').read())['web']['client_secret'],
+            open(CLIENT_SECRET_PATH, 'r').read())['web']['client_secret'],
         'revoke_url': 'https://accounts.google.com/o/oauth2/revoke?token='
-    },
-    'github': {
-        'client_id': '8d2e970c9dbc4bf81a62',
-        'client_secret': '8360bbced4d24091e8553351f6e60d11a93ffcfa',
-        'authorization_url': 'https://github.com/login/oauth/authorize',
-        'token_url': 'https://github.com/login/oauth/access_token'
     }
 }
 

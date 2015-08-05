@@ -126,14 +126,9 @@ def login():
     print("Current session state is %s" % login_session['state'])
     return render_template('access/login.html',
                            STATE=state,
-                           GOOGLE_CLIENT_ID=app.config['OAUTH_CREDENTIALS']['google']['client_id'],
-                           GITHUB_CLIENT_ID=app.config['OAUTH_CREDENTIALS']['github']['client_id'],
-                           GITHUB_AUTH_URL=app.config['OAUTH_CREDENTIALS']['github']['authorization_url'],
-                           GITHUB_SCOPE='user')
+                           CLIENT_ID=app.config['OAUTH_CREDENTIALS']['google']['client_id'])
 
 
-
-# Connect via Google
 @app.route('/gconnect', methods=['POST'])
 def gconnect():
     """ Exchange one-time authorization code for a token and store the
@@ -246,13 +241,6 @@ def gconnect():
 
 
 
-
-
-
-
-
-
-
 @app.route('/gdisconnect')
 def gdisconnect():
     # We're not storing the entire credentials object in our login_session
@@ -283,35 +271,6 @@ def gdisconnect():
             json.dumps("Failed to revoke token for given user.", 400))
         response.headers['Content-Type'] = 'application/json'
         return response
-
-
-
-#### GITHUB AUTH #####
-
-
-@app.route('/ghoauth2connect')
-def gh_oauth2connect():
-
-    import ipdb; ipdb.set_trace();
-    print(request.data)
-
-    # Validate state token
-    if request.args.get('state') != login_session['state']:
-        response = make_response(json.dumps('Invalid state parameter.'), 401)
-        response.headers['Content-Type'] = 'application/json'
-        return response
-
-
-@app.route('/ghconnect', methods=['POST'])
-def ghconnect():
-    print(request.args)
-
-
-
-##### END GITHUB AUTH ####
-
-
-
 
 
 

@@ -3,46 +3,33 @@
     </script>
     <script src="https://apis.google.com/js/client:platform.js?onload=start" async defer></script>
 
-    <link rel="stylesheet" href="/static/css/styles.css" type='text/css'>
-
-    <meta name="google-signin-client_id" content="{{GOOGLE_CLIENT_ID}}">
+    <meta name="google-signin-client_id" content="{{CLIENT_ID}}">
 </head>
 
 <body>
 
-    <div id="googleSignInButton">
+   <!--  <div class="g-signin" data-onsuccess="onSignIn" data-cookie-policy="single_host_origin"></div>
+ -->
+    <div id="signInButton">
           <span class="g-signin"
             data-scope="openid email"
-            data-clientid="{{GOOGLE_CLIENT_ID}}"
+            data-clientid="{{CLIENT_ID}}"
             data-redirecturi="postmessage"
             data-accesstype="offline"
             data-cookiepolicy="single_host_origin"
-            data-callback="googleSignInCallback"        
+            data-callback="signInCallback"        
             data-approvalprompt="force">
           </span>
     </div>
-<!-- 
-    <div id="githubSigninButton">
-        <span class="github-signin"
-            data-callback='githubSigninCallback'>
-            <a href="{{GITHUB_AUTH_URL}}?client_id={{GITHUB_CLIENT_ID}}&scope={{GITHUB_SCOPE}}&state={{STATE}}">
-                <img src="/static/images/github-signin.svg">
-            </a>
-        </span>
-
-    </div>
     <div id="result"></div>
 
- -->
-
-
 <script>
-function googleSignInCallback(authResult) {
+function signInCallback(authResult) {
     console.log(authResult)
     if (authResult['code']) {
 
         // Hide sign-in button now that user is authorized
-        $('#googleSigninButton').attr('style', 'display: none');
+        $('#signinButton').attr('style', 'display: none');
 
         // Send the one-time-use code to the server, if the server responds, write a 'login successful' message to the web page and then redirect back to the main catalogs page
         $.ajax({
@@ -71,5 +58,6 @@ function googleSignInCallback(authResult) {
 
 }
 </script>
+
 
 </body>
