@@ -1,6 +1,6 @@
 from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
-from flask.ext.script import Manager
+from flask.ext.script import Manager, Server
 from flask.ext.migrate import Migrate, MigrateCommand
 
 
@@ -14,5 +14,10 @@ migrate = Migrate(app, db)
 
 manager = Manager(app)
 manager.add_command('db', MigrateCommand)
+manager.add_command('runserver', Server(use_debugger=True,
+                                        use_reloader=True,
+                                        host='0.0.0.0',
+                                        port=5001)
+                   )
 
 from catalog_project import views

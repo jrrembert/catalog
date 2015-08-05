@@ -40,6 +40,10 @@ CSRF_SESSION_KEY = "secret_csrf"
 # Secret key for signing cookies
 SECRET_KEY = "secretsecrets"
 
+# Google Sign-In 
+CLIENT_SECRET_PATH = '/vagrant/client_secrets.json'
+
+
 # class Config(object):
 #     DEBUG = False
 #     TESTING = False

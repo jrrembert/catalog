@@ -12,15 +12,54 @@ something (somehow) explodes. Unless it explodes into a
 rainbow of mutant dinosaurs made out of cookie batter.
 Then I assume complete credit.
 """
+import httplib2
+import logging
+import json
+import random
+import requests
+import string
+
+import ipdb
+
+
+
+
 from flask import Flask, render_template, jsonify, request, redirect, url_for
-from flask import flash
+from flask import flash, make_response
+from flask import session as login_session
 from sqlalchemy import asc
 
-from models import Sports, Teams
+from oauth2client.client import flow_from_clientsecrets, FlowExchangeError
+from oauth2client.client import AccessTokenCredentials
+
+from models import Sports, Teams, Users
 from catalog_project import app, db
 
 
 session = db.session
+
+##### Utility Functions #####
+
+def create_user(login_session):
+    new_user = Users(name=login_session['username'], 
+                     email=login_session['email'], 
+                     picture=login_session['picture'])
+    session.add(new_user)
+    session.commit()
+    user = session.query(Users).filter_by(email=login_session['email']).one()
+    return user
+
+
+def get_user_info(user_id):
+    user = session.query(Users).filter_by(id=user_id).one()
+    return user
+
+def get_user_id(email):
+    try:
+        user = session.query(Users).filter_by(email=email).one()
+        return user.id
+    except:
+        return None
 
 
 @app.teardown_appcontext
@@ -29,7 +68,6 @@ def shutdown_session(exception=None):
         or when application shuts down.
     """
     session.remove()
-
 
 ##### JSON API endpoints #####
 
@@ -56,6 +94,188 @@ def show_sport_teams_json(sport_id):
 def show_sport_teams_info_json(sport_id, team_id):
     team = session.query(Teams).filter_by(id=team_id).one()
     return jsonify(team=team.serialize)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+##### Authentication #####
+
+# Create CSRF anti-forgery state token
+@app.route('/login')
+def login():
+    state = ''.join(random.choice(string.ascii_uppercase + 
+                                  string.ascii_lowercase + 
+                                  string.digits) for x in xrange(32))
+    login_session['state'] = state
+    print("Current session state is %s" % login_session['state'])
+    return render_template('access/login.html',
+                           STATE=state,
+                           CLIENT_ID=app.config['OAUTH_CREDENTIALS']['google']['client_id'])
+
+
+@app.route('/gconnect', methods=['POST'])
+def gconnect():
+    """ Exchange one-time authorization code for a token and store the
+        token in the session.
+    """
+
+    import pprint
+    pp = pprint.PrettyPrinter(indent=4)
+    
+    # Validate state token
+    if request.args.get('state') != login_session['state']:
+        response = make_response(json.dumps('Invalid state parameter.'), 401)
+        response.headers['Content-Type'] = 'application/json'
+        return response
+
+    # Comment out to allow user to connect and disconnect without reloading
+    # page.
+    # del login_session['state']
+
+    
+    code = request.data
+    
+    try:
+        # Update authorization code into a credentials object
+        oauth_flow = flow_from_clientsecrets(
+            app.config['CLIENT_SECRET_PATH'],
+            scope='')
+        oauth_flow.redirect_uri = 'postmessage'
+        authorize_url = oauth_flow.step1_get_authorize_url()
+        credentials = oauth_flow.step2_exchange(code)
+        
+        # login_session['credentials'] = credentials.access_token
+        # credentials = AccessTokenCredentials(login_session['credentials'], 'user-agent-value')
+    except FlowExchangeError:
+        response = make_response(
+            json.dumps("Failed to upgrade the authorization code."), 401)
+        response.headers['Content-Type'] = 'application/json'
+        return response
+
+    # Check that access token is valid
+    access_token = credentials.access_token
+    url = ('https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=%s' % access_token)
+    h = httplib2.Http()
+    result = json.loads(h.request(url, 'GET')[1])
+    # If there was an error in the access token info, abort.
+    if result.get('error') is not None:
+        response = make_response(json.dumps(result.get('error')), 500)
+        response.headers['Content-Type'] = 'application/json'
+
+    # Verify that the access token is used for the intended user.
+    gplus_id = credentials.id_token['sub']
+    if result['user_id'] != gplus_id:
+        response = make_response(
+            json.dumps("Token's user ID doesn't match given user ID."), 401)
+        response.headers['Content-Type'] = 'application/json'
+        return response
+
+    # Verify that the access token is valid for this app.
+    if result['issued_to'] != app.config['OAUTH_CREDENTIALS']['google']['client_id']:
+        response = make_response(
+            json.dumps("Token's client ID does not match app's"), 401)
+        response.headers['Content-Type'] = 'application/json'
+        return response
+
+    # Check to see if user is already logged in
+    stored_credentials = login_session.get('credentials')
+    stored_gplus_id = login_session.get('gplus_id')
+    if stored_credentials is not None and gplus_id == stored_gplus_id:
+        response = response = make_response(
+            json.dumps("Current user is already connected."), 200)
+        response.headers['Content-Type'] = 'application/json'
+        return response
+
+    # Store the access token in the session for later use
+    login_session['access_token'] = credentials.access_token
+    login_session['gplus_id'] = gplus_id
+
+    
+
+
+    # Get user info
+    userinfo_url = "https://www.googleapis.com/oauth2/v1/userinfo"
+    params = {'access_token': credentials.access_token, 'alt': 'json'}
+    answer = requests.get(userinfo_url, params=params)
+
+    data = answer.json()
+
+
+    
+
+    
+    login_session['username'] = data['name']
+    login_session['picture'] = data['picture']
+    login_session['email'] = data['email']
+    login_session['provider'] = 'google'
+
+    # See if user exists. If not, create one
+    user_id = get_user_id(data['email'])
+    if not user_id:
+        create_user(login_session)
+    
+    login_session['user_id'] = user_id
+    
+
+    login_success = "<h1>Welcome {0}!</h1><img src='{1}' ".format(login_session['username'], login_session['picture'])
+    login_success += "style='width: 300px; height: 300px; border-radius: 150px; -webkit-border-radius: 150px; -moz-border-radius: 150px;'>"
+    flash("You are now logged in as {0}".format(login_session['username']))
+
+    return login_success
+
+
+
+@app.route('/gdisconnect')
+def gdisconnect():
+    # We're not storing the entire credentials object in our login_session
+    credentials = login_session.get('access_token')
+    if credentials is None:
+        response = make_response(
+            json.dumps('Current user is not connected.'), 401)
+        response.headers['Content-Type'] = 'application/json'
+        return response
+    url = app.config['OAUTH_CREDENTIALS']['google']['revoke_url'] + "{0}".format(credentials)
+    h = httplib2.Http()
+    result = h.request(url, 'GET')[0]
+    if result['status'] == '200':
+        # Reset user's session
+        del login_session['access_token']
+        del login_session['gplus_id']
+        del login_session['username']
+        del login_session['email']
+        del login_session['picture']
+
+        response = make_response(json.dumps(
+            'User disconnected successfully.'), 200)
+        response.headers['Content-Type'] = 'application/json'
+        return response
+    else:
+        # For whatever reason, the given token was invalid.
+        response = make_response(
+            json.dumps("Failed to revoke token for given user.", 400))
+        response.headers['Content-Type'] = 'application/json'
+        return response
+
+
+
+
+
 
 
 ##### Sport page routes #####

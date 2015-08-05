@@ -65,3 +65,4 @@ target/
 
 # Project stuff
 local_config.py
+client_secrets.json
