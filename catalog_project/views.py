@@ -290,6 +290,8 @@ def show_sports():
 
 @app.route('/sports/new', methods=['GET', 'POST'])
 def new_sport():
+    if 'username' not in login_session:
+        return redirect('/login')
     if request.method == 'POST':
         new_sport = Sports(name=request.form['name'])
         session.add(new_sport)
@@ -302,6 +304,8 @@ def new_sport():
 
 @app.route('/sports/<int:sport_id>/edit', methods=['GET', 'POST'])
 def edit_sport(sport_id):
+    if 'username' not in login_session:
+        return redirect('/login')
     edited_sport = session.query(Sports).filter_by(id=sport_id).one()
     if request.method == 'POST':
         if request.form['name']:
@@ -316,6 +320,8 @@ def edit_sport(sport_id):
 
 @app.route('/sports/<int:sport_id>/delete', methods=['GET', 'POST'])
 def delete_sport(sport_id):
+    if 'username' not in login_session:
+        return redirect('/login')
     deleted_sport = session.query(Sports).filter_by(id=sport_id).one()
     if request.method == 'POST':
         session.delete(deleted_sport)
@@ -351,6 +357,8 @@ def show_team(sport_id, team_id):
 
 @app.route('/teams/<int:sport_id>/new', methods=['GET', 'POST'])
 def new_team(sport_id):
+    if 'username' not in login_session:
+        return redirect('/login')
     if request.method == 'POST':
         new_team = Teams(name=request.form['name'], sport_id=sport_id)
         session.add(new_team)
@@ -363,6 +371,8 @@ def new_team(sport_id):
 
 @app.route('/sports/<int:sport_id>/teams/<int:team_id>/edit', methods=['GET', 'POST'])
 def edit_team(sport_id, team_id):
+    if 'username' not in login_session:
+        return redirect('/login')
     resource_root = request.url.split('/')[3]  # Get first element in app.route
     edited_team = session.query(Teams).filter_by(id=team_id).one()
     if request.method == 'POST':
@@ -383,6 +393,8 @@ def edit_team(sport_id, team_id):
 
 @app.route('/sports/<int:sport_id>/teams/<int:team_id>/delete', methods=['GET', 'POST'])
 def delete_team(sport_id, team_id):
+    if 'username' not in login_session:
+        return redirect('/login')
     sport = session.query(Sports).filter_by(id=sport_id).one()
     deleted_team = session.query(Teams).filter_by(id=team_id).one()
     if request.method == 'POST':
