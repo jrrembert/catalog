@@ -1,9 +1,14 @@
-<div>
-    <span style="float: left">Sports Teams</span>
-    <span style="float: right">
-        <a href={{ url_for("login") }}>Login</a>
-        <a href={{ url_for("disconnect") }}>Disconnect</a>
-    </span>
+<div class="header">
+    <span class="header-title">Category App</span>
+    {% if session.picture %}
+    <img src={{ session.picture }}></img>
+    {% endif %}
 
-
+    {% if not session.username %}
+    <a href={{ url_for("login") }} class="header-login">Login</a>
+    {% else %}
+    <a class="header-login">{{session.username}}</a>
+    {% endif %}
+    
+    <a href={{ url_for("disconnect") }} class="header-logout">Disconnect</a>
 </div>
