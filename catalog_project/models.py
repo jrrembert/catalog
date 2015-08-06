@@ -36,6 +36,8 @@ class Users(db.Model):
     name = db.Column(db.String(250), nullable=False)
     email = db.Column(db.String(250), nullable=False)
     picture = db.Column(db.String(250))
+    sports = relationship("Sports", backref='users')
+    teams = relationship("Teams", backref='users')
 
     def __init__(self, name=None, email=None, picture=None):
         self.name = name
@@ -60,8 +62,10 @@ class Sports(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
-    user = db.relationship(Users)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    teams = relationship("Teams", 
+                         cascade="all, delete-orphan", 
+                         backref="sports")
 
     def __init__(self, user_id=None, name=None):
         self.user_id = user_id
@@ -88,9 +92,7 @@ class Teams(db.Model):
     losses = db.Column(db.Integer)
     league = db.Column(db.String(40))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    user = db.relationship(Users)
     sport_id = db.Column(db.Integer, db.ForeignKey('sports.id'))
-    sport = db.relationship(Sports)
 
     def __init__(self, user_id=None, sport_id=None, name=None, wins=None, 
                  losses=None, league=None):
