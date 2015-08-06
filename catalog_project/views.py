@@ -240,9 +240,9 @@ def gconnect():
     return login_success
 
 
-
 @app.route('/gdisconnect')
 def gdisconnect():
+    """ Revoke access token for Google Sign-in. """
     # We're not storing the entire credentials object in our login_session
     credentials = login_session.get('access_token')
     if credentials is None:
@@ -253,19 +253,7 @@ def gdisconnect():
     url = app.config['OAUTH_CREDENTIALS']['google']['revoke_url'] + "{0}".format(credentials)
     h = httplib2.Http()
     result = h.request(url, 'GET')[0]
-    if result['status'] == '200':
-        # Reset user's session
-        del login_session['access_token']
-        del login_session['gplus_id']
-        del login_session['username']
-        del login_session['email']
-        del login_session['picture']
-
-        response = make_response(json.dumps(
-            'User disconnected successfully.'), 200)
-        response.headers['Content-Type'] = 'application/json'
-        return response
-    else:
+    if result['status'] != '200':
         # For whatever reason, the given token was invalid.
         response = make_response(
             json.dumps("Failed to revoke token for given user.", 400))
@@ -273,6 +261,20 @@ def gdisconnect():
         return response
 
 
+@app.route('/disconnect')
+def disconnect():
+    """ General disconnect route for all providers. """
+    if 'provider' in login_session:
+        if login_session['provider'] == 'google':
+            gdisconnect()
+            # Remove session info for user
+            for key in login_session.keys():
+                del login_session[key]
+            flash("You have been successfully logged out.", "info")
+            return redirect(url_for('show_sports'))
+    else:
+        flash("You weren't logged in.")
+        return redirect(url_for('show_sports'))
 
 
 
