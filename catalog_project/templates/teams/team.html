@@ -3,8 +3,8 @@
 {% include "includes/header.html" %}
 
 
-<div>
-    {% with messages = get_flashed_messages() %}
+<div style="clear: both;">
+    {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             <p>
                 {% for message in messages %}
@@ -14,6 +14,7 @@
         {% endif %}
     {% endwith %}
 
+    
     <a href={{ url_for("new_team", sport_id=team.sport_id) }}>Add a new team</a>
     
     <p>
