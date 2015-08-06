@@ -25,7 +25,7 @@ session.add(user1)
 
 # Create sports
 sports = [Sports(user_id=1, name="Baseball"),
-          Sports(user_id=1, name="Football"),
+          Sports(user_id=2, name="Football"),
           Sports(user_id=1, name="Basketball")]
 session.add_all(sports)
 
@@ -61,15 +61,15 @@ football_teams = [Teams(user_id=1, name="Atlanta Falcons", wins=10,
 session.add_all(football_teams)
 
 # Teams for Basketball
-basketball_teams = [Teams(user_id=1, name="Atlanta Hawks", wins=10, 
+basketball_teams = [Teams(user_id=2, name="Atlanta Hawks", wins=10, 
                           losses=5, league = 'Eastern Conference', sport_id=sports[2].id),
-                    Teams(user_id=1, name="Indiana Pacers", wins=10, 
+                    Teams(user_id=2, name="Indiana Pacers", wins=10, 
                           losses=5, league = 'Eastern Conference', sport_id=sports[2].id),
-                    Teams(user_id=1, name="Detroit Pistons", wins=10, 
+                    Teams(user_id=2, name="Detroit Pistons", wins=10, 
                           losses=5, league = 'Eastern Conference', sport_id=sports[2].id),
-                    Teams(user_id=1, name="Los Angeles Clippers", wins=10, 
+                    Teams(user_id=2, name="Los Angeles Clippers", wins=10, 
                           losses=5, league = 'Western Conference', sport_id=sports[2].id),
-                    Teams(user_id=1, name="Denver Nuggets", wins=10, 
+                    Teams(user_id=2, name="Denver Nuggets", wins=10, 
                           losses=5, league = 'Western Conference', sport_id=sports[2].id)]
 
 session.add_all(basketball_teams)

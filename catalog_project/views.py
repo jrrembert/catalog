@@ -307,6 +307,9 @@ def edit_sport(sport_id):
     if 'username' not in login_session:
         return redirect('/login')
     edited_sport = session.query(Sports).filter_by(id=sport_id).one()
+    if edited_sport.user_id != login_session['user_id']:
+        flash('You are not authorized to edit this sport', 'error')
+        return redirect(url_for('show_sports'))
     if request.method == 'POST':
         if request.form['name']:
             edited_sport.name = request.form['name']
@@ -323,6 +326,9 @@ def delete_sport(sport_id):
     if 'username' not in login_session:
         return redirect('/login')
     deleted_sport = session.query(Sports).filter_by(id=sport_id).one()
+    if deleted_sport.user_id != login_session['user_id']:
+        flash('You are not authorized to delete this sport', 'error')
+        return redirect(url_for('show_sports'))
     if request.method == 'POST':
         session.delete(deleted_sport)
         session.commit()
@@ -375,6 +381,9 @@ def edit_team(sport_id, team_id):
         return redirect('/login')
     resource_root = request.url.split('/')[3]  # Get first element in app.route
     edited_team = session.query(Teams).filter_by(id=team_id).one()
+    if edited_team.user_id != login_session['user_id']:
+        flash('You are not authorized to edit this team', 'error')
+        return redirect(url_for('show_sports_teams', sport_id=sport_id))
     if request.method == 'POST':
         if request.form['name']:
             edited_team.name = request.form['name']
@@ -397,6 +406,9 @@ def delete_team(sport_id, team_id):
         return redirect('/login')
     sport = session.query(Sports).filter_by(id=sport_id).one()
     deleted_team = session.query(Teams).filter_by(id=team_id).one()
+    if deleted_team.user_id != login_session['user_id']:
+        flash('You are not authorized to delete this team', 'error')
+        return redirect(url_for('show_sports_teams', sport_id=sport_id))
     if request.method == 'POST':
         session.delete(deleted_team)
         session.commit()
