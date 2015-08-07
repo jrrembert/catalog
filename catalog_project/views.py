@@ -12,6 +12,7 @@ something (somehow) explodes. Unless it explodes into a
 rainbow of mutant dinosaurs made out of cookie batter.
 Then I assume complete credit.
 """
+import datetime
 import httplib2
 import logging
 import json
@@ -43,7 +44,8 @@ session = db.session
 def create_user(login_session):
     new_user = Users(name=login_session['username'], 
                      email=login_session['email'], 
-                     picture=login_session['picture'])
+                     picture=login_session['picture'],
+                     created_date=datetime.datetime.now())
     session.add(new_user)
     session.commit()
     user = session.query(Users).filter_by(email=login_session['email']).one()
@@ -295,7 +297,7 @@ def new_sport():
     if 'username' not in login_session:
         return redirect('/login')
     if request.method == 'POST':
-        new_sport = Sports(name=request.form['name'])
+        new_sport = Sports(name=request.form['name'], created_date=datetime.datetime.now())
         session.add(new_sport)
         flash("New sport added: {0}".format(new_sport.name))
         session.commit()
@@ -368,7 +370,9 @@ def new_team(sport_id):
     if 'username' not in login_session:
         return redirect('/login')
     if request.method == 'POST':
-        new_team = Teams(name=request.form['name'], sport_id=sport_id)
+        new_team = Teams(name=request.form['name'], 
+                         created_date=datetime.datetime.now(), 
+                         sport_id=sport_id)
         session.add(new_team)
         session.commit()
         flash("New team added: {0}".format(new_team.name))

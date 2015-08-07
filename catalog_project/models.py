@@ -38,11 +38,14 @@ class Users(db.Model):
     picture = db.Column(db.String(250))
     sports = relationship("Sports", backref='users')
     teams = relationship("Teams", backref='users')
+    # TODO: Should not be null
+    created_date = db.Column(db.DateTime)
 
-    def __init__(self, name=None, email=None, picture=None):
+    def __init__(self, name=None, email=None, picture=None, created_date=None):
         self.name = name
         self.email = email
         self.picture = picture
+        self.created_date = created_date
 
     def __repr__(self):
         return "<Users(name={0}, email={1})>".format(self.name, self.email)
@@ -66,10 +69,13 @@ class Sports(db.Model):
     teams = relationship("Teams", 
                          cascade="all, delete-orphan", 
                          backref="sports")
+    # TODO: Should not be null
+    created_date = db.Column(db.DateTime)
 
-    def __init__(self, user_id=None, name=None):
+    def __init__(self, user_id=None, name=None, created_date=None):
         self.user_id = user_id
         self.name = name
+        self.created_date = created_date
 
     def __repr__(self):
         return "<Sports(name={0})>".format(self.name)
@@ -93,15 +99,18 @@ class Teams(db.Model):
     league = db.Column(db.String(40))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     sport_id = db.Column(db.Integer, db.ForeignKey('sports.id'))
+    # TODO: Should not be null
+    created_date = db.Column(db.DateTime)
 
     def __init__(self, user_id=None, sport_id=None, name=None, wins=None, 
-                 losses=None, league=None):
+                 losses=None, league=None, created_date=None):
         self.user_id = user_id
         self.name = name
         self.wins = wins
         self.losses = losses
         self.league = league
         self.sport_id = sport_id
+        self.created_date = created_date
 
     def __repr__(self):
         return "<Teams(name={0})>".format(self.name)
