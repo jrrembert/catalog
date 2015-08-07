@@ -21,6 +21,11 @@ body {
 
 }
 
+.content {
+    margin-top: 15px;
+}
+
+
 .header {
     display: flex;
     height: 50px;
