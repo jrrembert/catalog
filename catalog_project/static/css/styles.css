@@ -2,7 +2,6 @@
     box-sizing: border-box;
 }
 
-
 body {
     background-color: #FFFFFF;
     margin: 0;
@@ -13,7 +12,6 @@ body {
 a:hover, a:visited, a:link {
     color: #FFFFFF;
 }
-
 
 .container {
     margin: 0px 8px;
@@ -44,7 +42,6 @@ a:hover, a:visited, a:link {
     text-decoration: none;
 }
 
-
 .header img {
     -webkit-clip-path: circle(18px at center);
     clip-path: circle(18px at center);
@@ -56,7 +53,6 @@ a:hover, a:visited, a:link {
     flex-grow: 20;
     margin-left: 10px;
 }
-
 
 .header-login, .header-logout {
     text-align: center;
@@ -108,4 +104,8 @@ a:hover, a:visited, a:link {
 
 .latest-div h2, .teams-div h2, .individual-team-div h2 {
     padding-left: 10px
+}
+
+.flash-success p, .flash-error p {
+    display: none;
 }
