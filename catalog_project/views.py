@@ -289,7 +289,7 @@ def disconnect():
 def show_sports():
     sports = session.query(Sports).order_by(asc(Sports.name)).all()
     teams = session.query(Teams).all()
-    
+
     # Aggregate all items and sort by created date (descending order)
     latest_items = sorted(sports + teams, 
                           key=lambda item: item.created_date,
@@ -403,6 +403,9 @@ def edit_team(sport_id, team_id):
     if request.method == 'POST':
         if request.form['name']:
             edited_team.name = request.form['name']
+            edited_team.league = request.form['league']
+            edited_team.wins = request.form['wins']
+            edited_team.losses = request.form['losses']
             session.add(edited_team)
             session.commit()
             flash("Sport successfully edited: {0}".format(edited_team.name))
