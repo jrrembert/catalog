@@ -380,7 +380,10 @@ def new_team(sport_id):
     if 'username' not in login_session:
         return redirect('/login')
     if request.method == 'POST':
-        new_team = Teams(name=request.form['name'], 
+        new_team = Teams(name=request.form['name'],
+                         league=request.form['league'],
+                         wins=request.form['wins'],
+                         losses=request.form['losses'], 
                          created_date=datetime.datetime.now(), 
                          sport_id=sport_id)
         session.add(new_team)
