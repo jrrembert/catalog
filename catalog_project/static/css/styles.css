@@ -1,17 +1,16 @@
 * {
     box-sizing: border-box;
-    background-color: #DFDFDF;
-    margin: 0;
-    font-family: 'Avenir', 'Helvetica', sans-serif;
 }
 
 
 body {
-
-
+    background-color: #FFFFFF;
+    margin: 0;
+    font-family: 'Avenir', 'Helvetica', sans-serif;
+    color: #FFFFFF;
 }
 
-.header a:hover, .header a:visited, .header a:link {
+a:hover, a:visited, a:link {
     color: #FFFFFF;
 }
 
@@ -23,6 +22,8 @@ body {
 
 .content {
     margin-top: 15px;
+    display: flex;
+    justify-content: flex-start;
 }
 
 
@@ -39,6 +40,11 @@ body {
     color: #FFFFFF;
 }
 
+.header a {
+    text-decoration: none;
+}
+
+
 .header img {
     -webkit-clip-path: circle(18px at center);
     clip-path: circle(18px at center);
@@ -49,7 +55,6 @@ body {
 .header-title {
     flex-grow: 20;
     margin-left: 10px;
-    font-size: 1.5em;
 }
 
 
@@ -67,4 +72,40 @@ body {
 
 .header-logout {
     flex-grow: 1;
+}
+
+.sidebar-div, .latest-div, .teams-div, .individual-team-div {
+    background-color: #DFDFDF;
+    padding-bottom: 5px
+
+}
+
+.sidebar-div {
+    text-align: center;
+    flex-grow: 1;
+    margin-right: 8px;
+    max-width: 500px;
+}
+
+.sidebar-div a {
+    text-decoration: none;
+}
+
+.sidebar-div p {
+    background-color: rgb(34, 169, 216);
+    padding: 5px;
+    margin-left: 8px;
+    margin-right: 8px;
+}
+
+.latest-div, .teams-div, .individual-team-div {
+    flex-grow: 3;
+}
+
+.latest-div p, .teams-div p, .individual-team-div p {
+    padding: 0 10px;
+}
+
+.latest-div h2, .teams-div h2, .individual-team-div h2 {
+    padding-left: 10px
 }

@@ -1,0 +1,17 @@
+<div class="sidebar-div">
+        <h2>{{ (teams|first).sports.name }} Teams</h2>
+        
+        {% for team in teams %}
+        <p>
+            <a href={{ url_for("show_sports_teams", sport_id=team.sport_id) }}>{{ team.name }}</a>
+            {% if session.username %}
+                <a href={{ url_for("edit_team", sport_id=team.sport_id, team_id=team.id) }}>Edit</a>
+                <a href={{ url_for("delete_team", sport_id=team.sport_id, team_id=team.id) }}>Delete</a>
+                
+            {% endif %} 
+        </p>
+        {% endfor %}
+
+
+        <a href={{ url_for("new_team", sport_id=(teams|first).sport_id) }}>Add a new team</a>
+</div>
