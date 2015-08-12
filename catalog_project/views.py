@@ -237,7 +237,7 @@ def gconnect():
 
     login_success = "<h1>Welcome {0}!</h1><img src='{1}' ".format(login_session['username'], login_session['picture'])
     login_success += "style='width: 300px; height: 300px; border-radius: 150px; -webkit-border-radius: 150px; -moz-border-radius: 150px;'>"
-    flash("You are now logged in as {0}".format(login_session['username']))
+    flash("You are now logged in as {0}".format(login_session['username']), 'flash-success')
 
     return login_success
 
