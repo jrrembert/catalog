@@ -288,8 +288,15 @@ def disconnect():
 @app.route('/sports')
 def show_sports():
     sports = session.query(Sports).order_by(asc(Sports.name)).all()
+    teams = session.query(Teams).all()
     
-    return render_template('sports/sports.html', sports=sports)
+    # Aggregate all items and sort by created date (descending order)
+    latest_items = sorted(sports + teams, 
+                          key=lambda item: item.created_date,
+                          reverse=True)
+    return render_template('sports/sports.html', 
+                           sports=sports,
+                           latest_items=latest_items)
 
 
 @app.route('/sports/new', methods=['GET', 'POST'])
@@ -346,7 +353,7 @@ def delete_sport(sport_id):
 
 @app.route('/teams')
 def show_all_teams():
-    sports = session.query(Sports).all()
+    sports = session.query(Sports).order_by(asc(Sports.name)).all()
     teams = session.query(Teams).order_by(asc(Teams.sport_id))
     return render_template('teams/teams.html', sports=sports, teams=teams)
 
@@ -354,15 +361,18 @@ def show_all_teams():
 @app.route('/sports/<int:sport_id>/teams')
 def show_sports_teams(sport_id):
     """Show all teams within a given sport."""
-    sports = session.query(Sports).filter_by(id=sport_id).one()
+    sports = session.query(Sports).order_by(asc(Sports.name)).all()
     teams = session.query(Teams).filter_by(sport_id=sport_id).all()
-    return render_template('teams/sportteams.html', sports=sports, teams=teams)
+    team_sport = session.query(Sports).filter_by(id=sport_id).one()
+    return render_template('teams/sportteams.html', sports=sports, 
+                           teams=teams, team_sport=team_sport)
 
 
 @app.route('/sports/<int:sport_id>/teams/<int:team_id>')
 def show_team(sport_id, team_id):
+    teams = session.query(Teams).filter_by(sport_id=sport_id).all()
     team = session.query(Teams).filter_by(id=team_id).one()
-    return render_template('/teams/team.html', team=team)
+    return render_template('/teams/team.html', teams=teams, team=team)
 
 
 @app.route('/teams/<int:sport_id>/new', methods=['GET', 'POST'])
