@@ -279,9 +279,6 @@ def disconnect():
         return redirect(url_for('show_sports'))
 
 
-
-
-
 ##### Sport page routes #####
 
 @app.route('/')
@@ -339,6 +336,7 @@ def delete_sport(sport_id):
     if 'username' not in login_session:
         return redirect('/login')
     deleted_sport = session.query(Sports).filter_by(id=sport_id).one()
+    teams = session.query(Teams).filter_by(sport_id=sport_id).all()
     if deleted_sport.user_id != login_session['user_id']:
         flash('You are not authorized to delete this sport', 'flash-error')
         return redirect(url_for('show_sports'))
@@ -348,7 +346,9 @@ def delete_sport(sport_id):
         flash("Sport successfully deleted: {0}".format(deleted_sport.name), 'flash-success')
         return redirect(url_for('show_sports'))
     else:
-        return render_template('/sports/deletesports.html', sport=deleted_sport)
+        return render_template('/sports/deletesports.html', 
+                               sport=deleted_sport, 
+                               teams=teams)
 
 
 ##### Team page routes #####
@@ -381,6 +381,10 @@ def show_team(sport_id, team_id):
 def new_team(sport_id):
     if 'username' not in login_session:
         return redirect('/login')
+    sport = session.query(Sports).filter_by(id=sport_id).one()
+    if sport.user_id != login_session['user_id']:
+        flash('You are not authorized to add a team to {}'.format(sport.name), 'flash-error')
+        return redirect(url_for('show_sports_teams', sport_id=sport_id))
     if request.method == 'POST':
         new_team = Teams(name=request.form['name'],
                          league=request.form['league'],

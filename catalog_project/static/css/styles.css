@@ -50,12 +50,12 @@ input#submit {
     text-align: center;
 }
 
-label#delete-confirm {
-    
-}
-
 a:hover, a:visited, a:link {
     color: #FFFFFF;
+}
+
+ul {
+    list-style-type: none;
 }
 
 .container {
@@ -115,7 +115,7 @@ a:hover, a:visited, a:link {
 }
 
 .sidebar-div, .latest-div, .teams-div, .individual-team-div {
-    background-color: #DFDFDF;
+    background-color: #C3C2C2;
     padding-bottom: 5px
 
 }
@@ -156,9 +156,44 @@ a:hover, a:visited, a:link {
 
 .edit-page {
     color: #FFFFFF;
-    background-color: #DFDFDF;
+    background-color: #C3C2C2;
     margin-top: 15px;
     display: flex;
     justify-content: flex-start;
 }
+
+.delete-confirm-label {
+    width: 100%;
+}
+
+#delete-sport-submit, #delete-team-submit {
+    margin: auto;
+    color: #FFFFFF;
+    background-color: rgb(34, 169, 216);
+    border: none;
+    width: 150px;
+    font-size: inherit;
+    font-weight: 500;
+    font-family: 'Avenir', 'Roboto', Helvetica, Arial, sans-serif;
+    display: inline-block;
+    text-align: center;
+}
+
+#delete-sport-cancel, #delete-team-cancel {
+    margin: auto;
+    color: #FFFFFF;
+    background-color: rgb(34, 169, 216);
+    border: none;
+    width: 150px;
+    font-size: inherit;
+    font-weight: 500;
+    font-family: 'Avenir', 'Roboto', Helvetica, Arial, sans-serif;
+    display: inline-block;
+    text-align: center;
+    height: 25px;
+    vertical-align: bottom;
+    text-decoration: none;
+    padding-top: 2px;
+}
+
 
