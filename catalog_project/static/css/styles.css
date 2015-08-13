@@ -1,19 +1,62 @@
+
+
 * {
     box-sizing: border-box;
 }
 
-
 body {
     background-color: #FFFFFF;
     margin: 0;
-    font-family: 'Avenir', 'Helvetica', sans-serif;
+    font-family: 'Avenir', 'Roboto', Helvetica, Arial, sans-serif;
     color: #FFFFFF;
+}
+
+form {
+    width: 85%;
+    margin: 15px 25px;
+}
+
+label, input {
+    display: inline-flex;
+    height: 25px;
+    margin: 5px;
+}
+
+label {
+    width: 35px;
+    font-weight: 700;
+}
+
+label + input {
+    width: 263px;
+    margin: 0 31px;
+}
+
+input + label {
+    text-align: right;
+    width: 7%;
+}
+
+input#submit {
+    color: #FFFFFF;
+    background-color: rgb(34, 169, 216);
+    border: none;
+    width: 262px;
+    margin: 5px 80px;
+    font-size: inherit;
+    font-weight: 500;
+    font-family: 'Avenir', 'Roboto', Helvetica, Arial, sans-serif;
+    display: inline-block;
+    text-align: center;
 }
 
 a:hover, a:visited, a:link {
     color: #FFFFFF;
 }
 
+ul {
+    list-style-type: none;
+}
 
 .container {
     margin: 0px 8px;
@@ -25,7 +68,6 @@ a:hover, a:visited, a:link {
     display: flex;
     justify-content: flex-start;
 }
-
 
 .header {
     display: flex;
@@ -44,7 +86,6 @@ a:hover, a:visited, a:link {
     text-decoration: none;
 }
 
-
 .header img {
     -webkit-clip-path: circle(18px at center);
     clip-path: circle(18px at center);
@@ -56,7 +97,6 @@ a:hover, a:visited, a:link {
     flex-grow: 20;
     margin-left: 10px;
 }
-
 
 .header-login, .header-logout {
     text-align: center;
@@ -75,7 +115,7 @@ a:hover, a:visited, a:link {
 }
 
 .sidebar-div, .latest-div, .teams-div, .individual-team-div {
-    background-color: #DFDFDF;
+    background-color: #C3C2C2;
     padding-bottom: 5px
 
 }
@@ -108,4 +148,52 @@ a:hover, a:visited, a:link {
 
 .latest-div h2, .teams-div h2, .individual-team-div h2 {
     padding-left: 10px
+}
+
+.flash-success p, .flash-error p {
+    display: none;
+}
+
+.edit-page {
+    color: #FFFFFF;
+    background-color: #C3C2C2;
+    margin-top: 15px;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.delete-confirm-label {
+    width: 100%;
+}
+
+#delete-sport-submit, #delete-team-submit {
+    margin: auto;
+    color: #FFFFFF;
+    background-color: rgb(34, 169, 216);
+    border: none;
+    width: 150px;
+    font-size: inherit;
+    font-weight: 500;
+    font-family: 'Avenir', 'Roboto', Helvetica, Arial, sans-serif;
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
+    cursor: hand;
+}
+
+#delete-sport-cancel, #delete-team-cancel {
+    margin: auto;
+    color: #FFFFFF;
+    background-color: rgb(34, 169, 216);
+    border: none;
+    width: 150px;
+    font-size: inherit;
+    font-weight: 500;
+    font-family: 'Avenir', 'Roboto', Helvetica, Arial, sans-serif;
+    display: inline-block;
+    text-align: center;
+    height: 25px;
+    vertical-align: bottom;
+    text-decoration: none;
+    padding-top: 2px;
 }

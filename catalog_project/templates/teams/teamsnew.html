@@ -1,22 +1,23 @@
 {% extends "index.html" %}
 {% block content %}
-{% include "includes/header.html" %}
+{% include "/includes/header.html" %}
 
-<div>
-    <form method="post"
-        <label for="name">Name:</label>
+<div class="edit-page">    
+    <form method="post">
+        <label for="name">Name: </label>
         <input id="name" type="text" maxlength="100" name="name">
-        <button type="submit" name="submit">Create</button>
-
-
-
+        <br>
+        <label for="league">League: </label>
+        <input id="league" type="text" maxlength="40" name="league">
+        <br>
+        <label for="wins">Wins: </label>
+        <input id="wins" type="text" name="wins">
+        <br>
+        <label for="losses">Losses: </label>
+        <input id="losses" type="text" name="losses">
+        <br>
+        <input id="submit" type="submit" value="Create"/>
     </form>
 </div>
-
-
-
-
-
-
 
 {% endblock %}

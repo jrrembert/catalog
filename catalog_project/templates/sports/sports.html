@@ -2,9 +2,10 @@
 {% block content %}
 {% include "includes/header.html" %}
 
-<div class="content">
-    {% include "includes/flash-messages.html" %}
+{% include "includes/flash-messages.html" %}
 
+<div class="content">
+    
     {% include "includes/sports-sidebar.html" %}
 
     <div class="latest-div">
@@ -17,10 +18,13 @@
 
                 {% for sport in sports|selectattr("id", "equalto", item.sport_id) %}
 
-                ({{ sport.name  }}}
+                (Team)
 
                 {% endfor %}
                 
+            {% else %}
+
+                (Sport)
                 
 
                 
