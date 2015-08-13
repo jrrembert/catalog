@@ -177,6 +177,8 @@ ul {
     font-family: 'Avenir', 'Roboto', Helvetica, Arial, sans-serif;
     display: inline-block;
     text-align: center;
+    cursor: pointer;
+    cursor: hand;
 }
 
 #delete-sport-cancel, #delete-team-cancel {
@@ -195,5 +197,3 @@ ul {
     text-decoration: none;
     padding-top: 2px;
 }
-
-

@@ -17,7 +17,11 @@
         <input id="losses" type="text" name="losses" value="{{team.losses}}">
         <br>
         <input id="submit" type="submit" value="Save"/>
+
     </form>
+    <script>
+            document.getElementById("submit").focus();
+    </script>
 </div>
 
 {% endblock %}
