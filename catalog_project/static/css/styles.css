@@ -1,5 +1,3 @@
-
-
 * {
     box-sizing: border-box;
 }
@@ -196,4 +194,10 @@ ul {
     vertical-align: bottom;
     text-decoration: none;
     padding-top: 2px;
+}
+
+.img-404 {
+    width: 75%;
+    margin: 12.5%;
+    padding: 10px;
 }

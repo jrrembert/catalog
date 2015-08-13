@@ -17,29 +17,19 @@
             {% if item.sport_id %}
 
                 {% for sport in sports|selectattr("id", "equalto", item.sport_id) %}
-
-                (Team)
-
+                    (Team)
                 {% endfor %}
                 
             {% else %}
-
                 (Sport)
-                
-
-                
             {% endif %}
 
             ({{ item.created_date|convert_datetime(format='human-short')}})
 
-            
         </p>
         {% endfor %}
 
-
-
     </div>
-
 </div>
 
 {% endblock %}

@@ -14,15 +14,13 @@ Then I assume complete credit.
 """ 
 import json
 
-
-# Enable for development environment
-DEBUG = False
-
 # Define application directory
 import os
 
-
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+
+# Enable for development environment
+DEBUG = False
 
 # Define the database we are working with
 # Note: This path will not play nice with Vagrant synced folders.
@@ -58,13 +56,6 @@ OAUTH_CREDENTIALS = {
     }
 }
 
-
-try:
-    from local_config import *
-except ImportError:
-    print("Local config file not found. Loading base config.")
-
-
 # class Config(object):
 #     DEBUG = False
 #     TESTING = False
@@ -83,3 +74,8 @@ except ImportError:
 
 # class TestingConfig(DevelopmentConfig):
 #     TESTING = True
+
+try:
+    from local_config import *
+except ImportError:
+    print("Local config file not found. Loading base config.")

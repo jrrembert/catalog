@@ -14,15 +14,16 @@ Then I assume complete credit.
 """
 import datetime
 
-from catalog_project import db
+from catalog_project import app, db
 from catalog_project.models import Sports, Teams, Users
 
 
 session = db.session()
 
 # Create dummy user
-user1 = Users(name="J. Ryan Rembert", email="rynliquid@gmail.com",
-              picture='https://pbs.twimg.com/profile_images/588416345416404992/y8EvAjvm.jpg', 
+user1 = Users(name=app.config['USER_NAME'], 
+              email=app.config['USER_EMAIL'],
+              picture=app.config['USER_PICTURE'], 
               created_date=datetime.datetime.now())
 session.add(user1)
 

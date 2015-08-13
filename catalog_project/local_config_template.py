@@ -12,13 +12,13 @@ something (somehow) explodes. Unless it explodes into a
 rainbow of mutant dinosaurs made out of cookie batter.
 Then I assume complete credit.
 """ 
-# Enable for development environment
-DEBUG = True
-
 # Define application directory
 import os
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+
+# Enable for development environment
+DEBUG = True
 
 # Define the database we are working with
 DATABASE_URI = 'sqlite:///' + os.path.join(BASE_DIR, 'app.db')
@@ -43,22 +43,7 @@ SECRET_KEY = "secretsecrets"
 # Google Sign-In 
 CLIENT_SECRET_PATH = '/vagrant/client_secrets.json'
 
-
-# class Config(object):
-#     DEBUG = False
-#     TESTING = False
-#     DATABASE_URI = 'sqlite:///testdb.db'
-
-
-# class DevelopmentConfig(Config):
-#     SECRET_KEY = "Not so secret key"
-#     DEBUG = True
-
-
-# class ProductionConfig(Config):
-#     SECRET_KEY = 'vj2tj2@C#r2c89PP98P3HC32fjio233$r%t9d$23r3fvnti5588!!24'
-#     DATABASE_URI = ''
-
-
-# class TestingConfig(DevelopmentConfig):
-#     TESTING = True
+# Fixture values if using teamdata.py
+USER_EMAIL = ''
+USER_NAME = ''
+USER_PICTURE = ''
