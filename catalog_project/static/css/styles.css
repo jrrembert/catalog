@@ -1,3 +1,5 @@
+
+
 * {
     box-sizing: border-box;
 }
@@ -5,8 +7,51 @@
 body {
     background-color: #FFFFFF;
     margin: 0;
-    font-family: 'Avenir', 'Helvetica', sans-serif;
+    font-family: 'Avenir', 'Roboto', Helvetica, Arial, sans-serif;
     color: #FFFFFF;
+}
+
+form {
+    width: 85%;
+    margin: 15px 25px;
+}
+
+label, input {
+    display: inline-flex;
+    height: 25px;
+    margin: 5px;
+}
+
+label {
+    width: 35px;
+    font-weight: 700;
+}
+
+label + input {
+    width: 263px;
+    margin: 0 31px;
+}
+
+input + label {
+    text-align: right;
+    width: 7%;
+}
+
+input#submit {
+    color: #FFFFFF;
+    background-color: rgb(34, 169, 216);
+    border: none;
+    width: 262px;
+    margin: 5px 80px;
+    font-size: inherit;
+    font-weight: 500;
+    font-family: 'Avenir', 'Roboto', Helvetica, Arial, sans-serif;
+    display: inline-block;
+    text-align: center;
+}
+
+label#delete-confirm {
+    
 }
 
 a:hover, a:visited, a:link {
@@ -23,7 +68,6 @@ a:hover, a:visited, a:link {
     display: flex;
     justify-content: flex-start;
 }
-
 
 .header {
     display: flex;
@@ -109,3 +153,12 @@ a:hover, a:visited, a:link {
 .flash-success p, .flash-error p {
     display: none;
 }
+
+.edit-page {
+    color: #FFFFFF;
+    background-color: #DFDFDF;
+    margin-top: 15px;
+    display: flex;
+    justify-content: flex-start;
+}
+

@@ -2,21 +2,13 @@
 {% block content %}
 {% include "includes/header.html" %}
 
-<div>
-    <form method="post"
-        <label for="name">Name:</label>
-        <input id="name" type='text' maxlength="100" name="name">
-        <button type="submit" name="submit">Create</button>
-
-
-
+<div class="edit-page">    
+    <form method="post">
+        <label for="name">Name: </label>
+        <input id="name" type="text" name="name">
+        <br>
+        <input id="submit" type="submit" value="Create"/>
     </form>
 </div>
-
-
-
-
-
-
 
 {% endblock %}

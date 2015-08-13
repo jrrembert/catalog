@@ -2,13 +2,12 @@
 {% block content %}
 {% include "includes/header.html" %}
 
-
-
-<div>    
+<div class="edit-page">    
     <form method="post">
         <label for="name">Name: </label>
         <input id="name" type="text" name="name" value="{{sport.name}}">
-        <button type="submit" >Save</button>
+        <br>
+        <input id="submit" type="submit" value="Save"/>
     </form>
 </div>
 
