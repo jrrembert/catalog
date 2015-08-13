@@ -20,11 +20,6 @@ import random
 import requests
 import string
 
-import ipdb
-
-
-
-
 from flask import Flask, render_template, jsonify, request, redirect, url_for
 from flask import flash, make_response
 from flask import session as login_session
@@ -62,7 +57,6 @@ def get_user_id(email):
         return user.id
     except:
         return None
-
 
 @app.teardown_appcontext
 def shutdown_session(exception=None):
@@ -230,9 +224,10 @@ def gconnect():
     # See if user exists. If not, create one
     user_id = get_user_id(data['email'])
     if not user_id:
-        create_user(login_session)
+        user = create_user(login_session)
     
-    login_session['user_id'] = user_id
+    # If email exists, get user_id. If not, create user and use it's id.
+    login_session['user_id'] = user_id or user.id
     
 
     login_success = "<h1>Welcome {0}!</h1><img src='{1}' ".format(login_session['username'], login_session['picture'])
