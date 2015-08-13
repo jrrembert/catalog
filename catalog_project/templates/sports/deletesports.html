@@ -1,0 +1,13 @@
+{% extends "index.html" %}
+{% block content %}
+{% include "includes/header.html" %}
+
+<div class="edit-page">    
+    <form method="post">
+        <label class="delete-confirm" for="submit">Are you you want to delete {{ sport.name }}?</label>
+        <br>
+        <input type="submit" id="submit" value="Delete"/>
+    </form>
+</div>
+
+{% endblock %}
