@@ -59,7 +59,7 @@ Open a page to ```http://localhost:5001``` and go nuts.
 2. ```$ pip install -r requirements-mac.txt```
 
 
-### Configuration (required)
+### Configuration (recommended)
 
 The repo ships with two configuration files (located in ```/catalog_project```) named ```config.py``` and ```local_config_template.py```. ```config.py``` is the only config file used by the app and should contain any information you don't mind the public seeing. You will likely not want certain information exposed to the public (your secret key for instance). In this case, you will want to copy ```local_config_template.py``` as ```local_config.py``` and place any private information within this file. ```local_config.py``` is not checked by source control and any values in this config file will add or overwrite values in ```config.py```.
 
