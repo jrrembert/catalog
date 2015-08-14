@@ -39,8 +39,8 @@ $ python -c 'import database; database.init_db()'  ## Initialize db
 $ python run.py runserver   ### Run the app
 ```
 
-Open a page to ```http://localhost:5001``` and go nuts.
-
+6. Open a page to ```http://localhost:5001``` and go nuts.
+7. Check out the [configuration](#configuration) and [test data]($testdata) sections for some additional steps you may want to take.
 
 
 
@@ -59,11 +59,14 @@ Open a page to ```http://localhost:5001``` and go nuts.
 2. ```$ pip install -r requirements-mac.txt```
 
 
-### Configuration (recommended)
+
+---
+
+### <a id="configuration"></a>Configuration (recommended)
 
 The repo ships with two configuration files (located in ```/catalog_project```) named ```config.py``` and ```local_config_template.py```. ```config.py``` is the only config file used by the app and should contain any information you don't mind the public seeing. You will likely not want certain information exposed to the public (your secret key for instance). In this case, you will want to copy ```local_config_template.py``` as ```local_config.py``` and place any private information within this file. ```local_config.py``` is not checked by source control and any values in this config file will add or overwrite values in ```config.py```.
 
-### Test data (optional)
+### <a id="testdata"></a>Test data (optional)
 
 The repo ships with two helper scripts: ```teamdata.py``` and ```pave_db.sh```.
 
