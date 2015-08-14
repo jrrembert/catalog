@@ -109,7 +109,6 @@ def login():
                                   string.ascii_lowercase + 
                                   string.digits) for x in xrange(32))
     login_session['state'] = state
-    print("Current session state is %s" % login_session['state'])
     return render_template('access/login.html',
                            STATE=state,
                            CLIENT_ID=app.config['OAUTH_CREDENTIALS']['google']['client_id'])

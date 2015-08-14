@@ -41,7 +41,7 @@ CSRF_SESSION_KEY = "secret_csrf"
 SECRET_KEY = "secretsecrets"
 
 # Google Sign-In 
-CLIENT_SECRET_PATH = '/vagrant/client_secrets.json'
+CLIENT_SECRET_PATH = '{}/../client_secrets.json'.format(BASE_DIR)
 
 # Fixture values if using teamdata.py
 USER_EMAIL = ''

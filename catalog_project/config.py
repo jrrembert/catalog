@@ -45,7 +45,7 @@ CSRF_SESSION_KEY = "change_me"
 SECRET_KEY = "secretsecrets"
 
 # Google Sign-In 
-CLIENT_SECRET_PATH = '/vagrant/client_secrets.json'
+CLIENT_SECRET_PATH = '{}/../client_secrets.json'.format(BASE_DIR)
 OAUTH_CREDENTIALS = {
     'google': {
         'client_id': json.loads(
