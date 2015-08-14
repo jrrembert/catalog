@@ -86,6 +86,8 @@ The repo ships with two helper scripts: ```teamdata.py``` and ```pave_db.sh```.
 
 ```teamdata.py``` contains some dummy data to prepopulate your db. Before running this script, you will need to set the value of ```USER_EMAIL``` within ```config.py``` or ```local_config.py``` equal to the gmail address you will use to log in to the site. Then simply run ```$ python teamdata.py``` to load some data into the database.
 
+**Note: the following is for those using the VM**
+
 For developers, the ```pave_db.sh``` script is available if you want to clear the db, reinitialize it, and populate it with data between builds. You will need to follow the instructions for ```teamdata.py``` above, then whenever you're ready to go, run ```$ ./pave_db.sh``` (you may need to run ```$ chmod +x pave_db.sh``` before proceeding.
 
 ### Migrations (optional)
