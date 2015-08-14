@@ -31,16 +31,16 @@ If you see this, look for a folder in your current working dir that looks like t
 4. Copy this file to your project root as ```client_secrets.json```
 5. From a terminal (make sure you're within your project root):
 
-```
-$ vagrant ssh
-$ cd /vagrant
-$ pip install -r requirements-vm.txt    ## May need to run as sudo
-$ python -c 'import database; database.init_db()'  ## Initialize db
-$ python run.py runserver   ### Run the app
-```
+  ```
+  $ vagrant ssh
+  $ cd /vagrant
+  $ pip install -r requirements-vm.txt    ## May need to run as sudo
+  $ python -c 'import database; database.init_db()'  ## Initialize db
+  $ python run.py runserver   ### Run the app
+  ```
 
 6. Open a page to ```http://localhost:5001``` and go nuts.
-7. Check out the [configuration](#configuration) and [test data]($testdata) sections for some additional steps you may want to take.
+7. Check out the [configuration](#configuration) and [test data](#testdata) sections for some additional steps you may want to take.
 
 
 
@@ -54,10 +54,24 @@ $ python run.py runserver   ### Run the app
 
 ## <a id="installlocal"></a>Setup (local)
 
-1. Clone repo
-2. I highly recommend setting up a ```virtualenv``` before proceeding. You've been warned.
-2. ```$ pip install -r requirements-mac.txt```
+### Initial setup (required)
 
+1. Clone the repo
+2. I highly recommend setting up a ```virtualenv``` before proceeding. You've been warned.
+2. Register an app at (https://console.developers.google.com).
+3. Click on your newly-created project and go to "Credentials".
+4. Click on "Download JSON".
+5. Copy this file to your project root as ```client_secrets.json```
+6. From a terminal (make sure you're within your project root):
+
+  ```
+  $ pip install -r requirements-mac.txt    ## May need to run as sudo
+  $ python -c 'import database; database.init_db()'  ## Initialize db
+  $ python run.py runserver   ### Run the app
+  ```
+
+6. Open a page to ```http://localhost:5001``` and go nuts.
+7. Check out the [configuration](#configuration) and [test data](#testdata) sections for some additional steps you may want to take.
 
 
 ---
