@@ -1,6 +1,6 @@
 # catalog
 
-A simple Flask app.
+A simple flask app demonstrating hierarchal relationships between sports teams.
 
 ## Setup (on Vagrant VM)
 
