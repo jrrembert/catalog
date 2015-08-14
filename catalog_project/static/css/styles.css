@@ -120,9 +120,8 @@ ul {
 
 .sidebar-div {
     text-align: center;
-    flex-grow: 1;
     margin-right: 8px;
-    max-width: 500px;
+    width: 25%;
 }
 
 .sidebar-div a {
@@ -136,8 +135,27 @@ ul {
     margin-right: 8px;
 }
 
+.sidebar-div h2 {
+    display: inline-block;
+}
+
+.teams-div span {
+    width: 15%;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.teams-div h2 {
+    width: 35%;
+}
+
+.teams-div div {
+    padding-left: 10px;
+}
+
 .latest-div, .teams-div, .individual-team-div {
-    flex-grow: 3;
+    width: 75%;
 }
 
 .latest-div p, .teams-div p, .individual-team-div p {
@@ -145,7 +163,8 @@ ul {
 }
 
 .latest-div h2, .teams-div h2, .individual-team-div h2 {
-    padding-left: 10px
+    padding-left: 10px;
+    display: inline-block;
 }
 
 .flash-success p, .flash-error p {
@@ -200,4 +219,20 @@ ul {
     width: 75%;
     margin: 12.5%;
     padding: 10px;
+}
+
+.edit-delete-span {
+    margin-left: 10px;
+    width: 12% !important;
+
+}
+
+.team-name {
+    display: inline-block;
+    width: 35% !important;
+    text-align: left !important;
+}
+
+.add-new a, .add-new a img {
+    vertical-align: middle;
 }

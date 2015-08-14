@@ -364,7 +364,7 @@ def new_team(sport_id):
         new_team = Teams(name=request.form['name'],
                          league=request.form['league'],
                          wins=request.form['wins'] or 0,
-                         losses=request.form['losses'], 
+                         losses=request.form['losses'] or 0, 
                          created_date=datetime.datetime.now(), 
                          sport_id=sport_id,
                          user_id=login_session['user_id'])

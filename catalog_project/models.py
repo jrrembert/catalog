@@ -12,21 +12,12 @@ something (somehow) explodes. Unless it explodes into a
 rainbow of mutant dinosaurs made out of cookie batter.
 Then I assume complete credit.
 """ 
-from sqlalchemy import create_engine
-from sqlalchemy.orm import relationship
-# from sqlalchemy.ext.declarative import declarative_base
-
-
 from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
+from sqlalchemy import create_engine
+from sqlalchemy.orm import relationship
 
 from catalog_project import app, db
-
-
-
-# Base = declarative_base()
-
-
 
 
 class Users(db.Model):
@@ -154,4 +145,3 @@ class Teams(db.Model):
 # Create all tables in the engine. This is equivalent to "Create Table"
 # statements in raw SQL.
 # Base.metadata.create_all(engine)
-
