@@ -144,8 +144,6 @@ def gconnect():
         authorize_url = oauth_flow.step1_get_authorize_url()
         credentials = oauth_flow.step2_exchange(code)
         
-        # login_session['credentials'] = credentials.access_token
-        # credentials = AccessTokenCredentials(login_session['credentials'], 'user-agent-value')
     except FlowExchangeError:
         response = make_response(
             json.dumps("Failed to upgrade the authorization code."), 401)
@@ -211,7 +209,6 @@ def gconnect():
     login_session['user_id'] = user_id or user.id
 
     login_success = "<h1>Welcome {0}!</h1><img src='{1}' ".format(login_session['username'], login_session['picture'])
-    login_success += "style='width: 300px; height: 300px; border-radius: 150px; -webkit-border-radius: 150px; -moz-border-radius: 150px;'>"
     flash("You are now logged in as {0}".format(login_session['username']), 'flash-success')
 
     return login_success
@@ -307,7 +304,7 @@ def edit_sport(sport_id):
             session.add(edited_sport)
             session.commit()
             flash("Sport successfully edited: {0}".format(edited_sport.name), 'flash-success')
-            return redirect(url_for('show_sports'))
+            return redirect(url_for('show_sports_teams', sport_id=edited_sport.id))
     
     return render_template('/sports/editsports.html', sport=edited_sport)
 
@@ -322,7 +319,7 @@ def delete_sport(sport_id):
     
     if deleted_sport.user_id != login_session['user_id']:
         flash('You are not authorized to delete this sport', 'flash-error')
-        return redirect(url_for('show_sports'))
+        return redirect(url_for('show_sports_teams', sport_id=deleted_sport.id))
     if request.method == 'POST':
         session.delete(deleted_sport)
         session.commit()
@@ -330,8 +327,8 @@ def delete_sport(sport_id):
         return redirect(url_for('show_sports'))
 
     return render_template('/sports/deletesports.html', 
-                               sport=deleted_sport, 
-                               teams=teams)
+                           sport=deleted_sport, 
+                           teams=teams)
 
 
 ##### Team page routes #####
@@ -401,11 +398,6 @@ def edit_team(sport_id, team_id):
             session.add(edited_team)
             session.commit()
             flash("Sport successfully edited: {0}".format(edited_team.name), 'flash-success')
-            # TODO: determine canonical url for team editing and create route
-            #       if necessary.
-            if resource_root == 'sports':
-                return redirect(url_for('show_sports_teams', sport_id=sport_id))
-            
             return redirect(url_for('show_sports_teams', sport_id=sport_id))
 
     return render_template('/teams/editteam.html', team=edited_team)

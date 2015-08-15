@@ -136,7 +136,7 @@ ul {
 }
 
 .sidebar-div h2 {
-    display: inline-block;
+    display: block;
 }
 
 .teams-div span {
@@ -235,4 +235,51 @@ ul {
 
 .add-new a, .add-new a img {
     vertical-align: middle;
+}
+
+.signin {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -115px 0 0 -150px;
+}
+
+.login-screen {
+    background: url("/static/images/login-bg.jpg") no-repeat center #2C3038;
+    background-blend-mode: soft-light;
+    background-size: cover;
+}
+
+.login-hr {
+    border-top: 1px solid #BBBBBB; 
+    margin: 0 auto; 
+    width: 350px; 
+    transform: translateY(500px);
+}
+
+#no-login {
+    text-align: center;
+    border: 1px solid;
+    margin: 0 auto;
+    width: 300px;
+    padding: 8px 0;
+    transform: translateY(525px);
+}
+
+#no-login a {
+    text-decoration: none;
+}
+
+#result {
+    text-align: center;
+    margin: 40% 0;
+
+}
+
+#result img {
+    width: 125px; 
+    height: 125px; 
+    border-radius: 150px; 
+    -webkit-border-radius: 150px; 
+    -moz-border-radius: 150px;'>
 }
