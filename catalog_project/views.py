@@ -20,6 +20,7 @@ import random
 import requests
 import string
 
+import dicttoxml
 from flask import Flask, render_template, jsonify, request, redirect, url_for
 from flask import flash, make_response
 from flask import session as login_session
@@ -98,6 +99,48 @@ def show_sport_teams_json(sport_id):
 def show_sport_teams_info_json(sport_id, team_id):
     team = session.query(Teams).filter_by(id=team_id).one()
     return jsonify(team=team.serialize)
+
+
+##### XML API endpoints #####
+
+@app.route('/sports/XML')
+def show_sports_xml():
+    sports = session.query(Sports).all()
+    rule = request.url_rule.rule.split('/')[1]  # Get root value from route
+    sports_xml = dicttoxml.dicttoxml([s.serialize for s in sports], 
+                                     attr_type=False,
+                                     custom_root=rule)
+    return app.response_class(sports_xml, mimetype='application/xml')
+
+
+@app.route('/teams/XML')
+def show_teams_xml():
+    teams = session.query(Teams).all()
+    rule = request.url_rule.rule.split('/')[1]  # Get root value from route
+
+    teams_xml = dicttoxml.dicttoxml([t.serialize for t in teams], 
+                                    attr_type=False, 
+                                    custom_root=rule)
+    return app.response_class(teams_xml, mimetype='application/xml')
+
+
+@app.route('/sports/<int:sport_id>/teams/XML')
+def show_sport_teams_xml(sport_id):
+    sports = session.query(Sports).filter_by(id=sport_id).one()
+    teams = session.query(Teams).filter_by(sport_id=sport_id)
+    rule = request.url_rule.rule.split('/')[1]  # Get root value from route
+    teams_xml = dicttoxml.dicttoxml([t.serialize for t in teams], 
+                                    attr_type=False, 
+                                    custom_root=rule)
+    return app.response_class(teams_xml, mimetype='application/xml')
+
+
+@app.route('/sports/<int:sport_id>/teams/<int:team_id>/XML')
+def show_sport_teams_info_xml(sport_id, team_id):
+    team = session.query(Teams).filter_by(id=team_id).one()
+    rule = request.url_rule.rule.split('/')[1]  # Get root value from route
+    team_xml = dicttoxml.dicttoxml(team.serialize, attr_type=False, custom_root=rule)
+    return app.response_class(team_xml, mimetype='application/xml')
 
 
 ##### Authentication #####
