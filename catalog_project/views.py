@@ -105,6 +105,10 @@ def show_sport_teams_info_json(sport_id, team_id):
 # Create CSRF anti-forgery state token
 @app.route('/login')
 def login():
+    if login_session.has_key("access_token"):
+        flash("Please logout the current user first.", "flash-error")
+        return redirect(url_for('show_sports'))
+
     state = ''.join(random.choice(string.ascii_uppercase + 
                                   string.ascii_lowercase + 
                                   string.digits) for x in xrange(32))
