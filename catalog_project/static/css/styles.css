@@ -40,7 +40,7 @@ input#submit {
     background-color: rgb(34, 169, 216);
     border: none;
     width: 262px;
-    margin: 5px 80px;
+    margin: 15px 80px;
     font-size: inherit;
     font-weight: 500;
     font-family: 'Avenir', 'Roboto', Helvetica, Arial, sans-serif;
@@ -48,8 +48,8 @@ input#submit {
     text-align: center;
 }
 
-input[type="checkbox"] {
-    transform: matrix(2, 0, 0, 2, 0, 7);
+input[type="radio"] {
+    transform: matrix(1, 0, 0, 1, 0, 7);
     margin-top: 0px;
 }
 
@@ -257,18 +257,29 @@ ul {
 
 .login-hr {
     border-top: 1px solid #BBBBBB; 
-    margin: 0 auto; 
+    margin: -31px 0 0 -173px; 
     width: 350px; 
-    transform: translateY(500px);
+    /*transform: translateY(500px);*/
+    position: absolute;
+    top: 50%;
+    left: 50%;
 }
 
 #no-login {
     text-align: center;
     border: 1px solid;
+    margin: 4px 0 0 -150px;
+    width: 300px;
+    padding: 8px 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    /*text-align: center;
+    border: 1px solid;
     margin: 0 auto;
     width: 300px;
     padding: 8px 0;
-    transform: translateY(525px);
+    transform: translateY(525px);*/
 }
 
 #no-login a {

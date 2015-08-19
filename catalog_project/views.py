@@ -90,11 +90,13 @@ def logo_picker(request):
     """
     logo_checkboxes = request.form.getlist('logo-check')
     if not logo_checkboxes:
-        return
+        return ''
     if 'web-checked' in logo_checkboxes:
         return request.form['logo-web']
     if 'file-checked' in logo_checkboxes:
-        return "/static/images/" + request.form['logo-file']
+        logo_web_or_default = request.form.getlist('logo-web')[0] or \
+                              "/static/images/default-logo-img.svg"
+        return "/static/images/" + request.form.get('logo-file', logo_web_or_default)
 
 
 ##### JSON API endpoints #####
@@ -438,7 +440,7 @@ def new_team(sport_id):
                          league=request.form['league'],
                          wins=request.form['wins'] or 0,
                          losses=request.form['losses'] or 0,
-                         logo=request.form['logo-web'] or ("/static/images/" + request.form['logo-file']),
+                         logo=logo_picker(request),
                          created_date=datetime.datetime.now(), 
                          sport_id=sport_id,
                          user_id=login_session['user_id'])
