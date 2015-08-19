@@ -8,9 +8,13 @@
     
     {% include "includes/team-sidebar.html" %}
 
+
     <div class="individual-team-div">
         <h2>{{ team.name }}</h2>
-        <ul>
+        <div class="logo-div">
+            <img class="team-logo" src="{{team.logo}}" onerror="imgError(this);"></img>
+        </div>
+        <ul class="team-info">
             <li>League: {{ team.league }}</li>
             <li>Wins: {{ team.wins }}</li>
             <li>Losses: {{ team.losses }}</li>

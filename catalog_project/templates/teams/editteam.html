@@ -16,8 +16,15 @@
         <label for="losses">Losses: </label>
         <input id="losses" type="text" name="losses" value="{{team.losses}}">
         <br>
+        <label for="logo">Logo: </label>
+        <input id="logo-web" type="text" name="logo-web" value="{{team.logo}}">
+        <input id="logo-check" type="checkbox" name="logo-check" value="web-checked">
+        <br>
+        <label></label>
+        <input id="logo-file" type="file" name="logo-file" value="{{team.logo}}">
+        <input id="logo-check" type="checkbox" name="logo-check" value="file-checked">
+        <br>
         <input id="submit" type="submit" value="Save"/>
-
     </form>
     <script>
             document.getElementById("submit").focus();

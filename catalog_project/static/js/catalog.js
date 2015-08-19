@@ -13,3 +13,10 @@ if ($(flashSuccess).length ) {
 if ($(flashError).length ) {
 	toastr.error($(flashError).text() )
 };
+
+function imgError(image) {
+	image.onerror = "";
+	alert("Error retrieving image.");
+	image.src = "/static/images/default-team-img.svg";
+	return true;
+}

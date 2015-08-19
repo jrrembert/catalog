@@ -88,13 +88,15 @@ class Teams(db.Model):
     wins = db.Column(db.Integer)
     losses = db.Column(db.Integer)
     league = db.Column(db.String(40))
+    logo = db.Column(db.Text)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     sport_id = db.Column(db.Integer, db.ForeignKey('sports.id'))
     # TODO: Should not be null
     created_date = db.Column(db.DateTime)
 
     def __init__(self, user_id=None, sport_id=None, name=None, wins=None, 
-                 losses=None, league=None, created_date=None):
+                 losses=None, league=None, created_date=None, 
+                 logo="/static/images/default-team-img.svg"):
         self.user_id = user_id
         self.name = name
         self.wins = wins
@@ -102,6 +104,7 @@ class Teams(db.Model):
         self.league = league
         self.sport_id = sport_id
         self.created_date = created_date
+        self.logo = logo
 
     def __repr__(self):
         return "<Teams(name={0})>".format(self.name)
@@ -116,7 +119,8 @@ class Teams(db.Model):
             'losses': self.losses,
             'league': self.league,
             'user_id': self.user_id,
-            'sport_id': self.sport_id
+            'sport_id': self.sport_id,
+            'logo': self.logo
         }
 
 

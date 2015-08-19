@@ -2,7 +2,9 @@
 
 A simple flask app demonstrating hierarchal relationships between sports teams.
 
-## Setup (on Vagrant VM)
+The site was tested in the most recent version of Chrome and no attempts were made to increase cross-browser capability. 
+
+## Recommended Installation (using a Vagrant VM)
 
 I recommend using the attached Vagrant configuration, however you can install [locally](#installlocal) as well. These instructions will assume you're using the VM and executing scripts from the VM's terminal (denoted where you see `vagrant-vm $` below).
 
@@ -52,7 +54,7 @@ If you see this, look for a folder in your current working dir that looks like t
 ---
 
 
-## <a id="installlocal"></a>Setup (local)
+## <a id="installlocal"></a>OS X Installation (local)
 
 ### Initial setup (required)
 
@@ -78,7 +80,9 @@ If you see this, look for a folder in your current working dir that looks like t
 
 ### <a id="configuration"></a>Configuration (recommended)
 
-The repo ships with two configuration files (located in ```/catalog_project```) named ```config.py``` and ```local_config_template.py```. ```config.py``` is the only config file used by the app and should contain any information you don't mind the public seeing. You will likely not want certain information exposed to the public (your secret key for instance). In this case, you will want to copy ```local_config_template.py``` as ```local_config.py``` and place any private information within this file. ```local_config.py``` is not checked by source control and any values in this config file will add or overwrite values in ```config.py```.
+The repo ships with two configuration files (located in ```/catalog_project```) named ```config.py``` and ```local_config_template.py```. ```config.py``` is the only config file used by the app and should contain any information you don't mind the public seeing. 
+
+You will likely not want certain information exposed to the public (your secret key for instance). In this case, you will want to copy ```local_config_template.py``` as ```local_config.py``` and place any private information within this file. ```local_config.py``` is not checked by source control and any values in this config file will add or overwrite values in ```config.py```.
 
 ### <a id="testdata"></a>Test data (optional)
 

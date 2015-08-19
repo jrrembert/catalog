@@ -27,7 +27,7 @@ label {
 
 label + input {
     width: 263px;
-    margin: 0 31px;
+    margin: 0 5px 0 31px;
 }
 
 input + label {
@@ -46,6 +46,11 @@ input#submit {
     font-family: 'Avenir', 'Roboto', Helvetica, Arial, sans-serif;
     display: inline-block;
     text-align: center;
+}
+
+input[type="checkbox"] {
+    transform: matrix(2, 0, 0, 2, 0, 7);
+    margin-top: 0px;
 }
 
 a:hover, a:visited, a:link {
@@ -282,4 +287,13 @@ ul {
     border-radius: 150px; 
     -webkit-border-radius: 150px; 
     -moz-border-radius: 150px;'>
+}
+
+.team-logo  {
+    max-width: 100%;
+    height: auto;
+}
+
+.logo-div {
+    margin: 0 10px;
 }

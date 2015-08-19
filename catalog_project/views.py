@@ -19,6 +19,7 @@ import json
 import random
 import requests
 import string
+from urlparse import urlparse, urljoin
 
 import dicttoxml
 from flask import Flask, render_template, jsonify, request, redirect, url_for
@@ -45,12 +46,14 @@ def shutdown_session(exception=None):
 
 @app.errorhandler(404)
 def page_not_found(e):
+    """ Display a custom 404 page on error. """
     return render_template('404.html'), 404
 
 
 ##### Utility Functions #####
 
 def create_user(login_session):
+    """ Add a user to the database. """
     new_user = Users(name=login_session['username'], 
                      email=login_session['email'], 
                      picture=login_session['picture'],
@@ -62,16 +65,36 @@ def create_user(login_session):
 
 
 def get_user_info(user_id):
+    """ Get a user object from the database. """
+
     user = session.query(Users).filter_by(id=user_id).one()
     return user
 
 
 def get_user_id(email):
+    """ Get a user's id attribute. """
     try:
         user = session.query(Users).filter_by(email=email).one()
         return user.id
     except:
         return None
+
+
+def logo_picker(request):
+    """ Choose whether to use a web url or a local file as a team logo. 
+        If both boxes are checked, choose the web url.
+
+        Since javascript cannot safely provide local file system paths, a web
+        url will probably be the best solution without a file import system
+        in place. 
+    """
+    logo_checkboxes = request.form.getlist('logo-check')
+    if not logo_checkboxes:
+        return
+    if 'web-checked' in logo_checkboxes:
+        return request.form['logo-web']
+    if 'file-checked' in logo_checkboxes:
+        return "/static/images/" + request.form['logo-file']
 
 
 ##### JSON API endpoints #####
@@ -148,6 +171,7 @@ def show_sport_teams_info_xml(sport_id, team_id):
 # Create CSRF anti-forgery state token
 @app.route('/login')
 def login():
+    """ Base login function. Creates a CSRF token for validation. """
     if login_session.has_key("access_token"):
         flash("Please logout the current user first.", "flash-error")
         return redirect(url_for('show_sports'))
@@ -301,6 +325,7 @@ def disconnect():
 @app.route('/')
 @app.route('/sports')
 def show_sports():
+    """ Show all sports in database. """
     sports = session.query(Sports).order_by(asc(Sports.name)).all()
     teams = session.query(Teams).all()
 
@@ -354,6 +379,9 @@ def edit_sport(sport_id):
 
 @app.route('/sports/<int:sport_id>/delete', methods=['GET', 'POST'])
 def delete_sport(sport_id):
+    """ Delete a sport. This will delete all teams belonging to that sport
+        as well.
+    """
     if 'username' not in login_session:
         return redirect('/login')
     
@@ -378,7 +406,7 @@ def delete_sport(sport_id):
 
 @app.route('/sports/<int:sport_id>/teams')
 def show_sports_teams(sport_id):
-    """Show all teams within a given sport."""
+    """ Show all teams within a given sport. """
     sports = session.query(Sports).order_by(asc(Sports.name)).all()
     teams = session.query(Teams).filter_by(sport_id=sport_id).all()
     team_sport = session.query(Sports).filter_by(id=sport_id).one()
@@ -388,6 +416,7 @@ def show_sports_teams(sport_id):
 
 @app.route('/sports/<int:sport_id>/teams/<int:team_id>')
 def show_team(sport_id, team_id):
+    """ Show a single team within a sport. """
     teams = session.query(Teams).filter_by(sport_id=sport_id).all()
     team = session.query(Teams).filter_by(id=team_id).one()
     return render_template('/teams/team.html', teams=teams, team=team)
@@ -405,10 +434,11 @@ def new_team(sport_id):
         return redirect(url_for('show_sports_teams', sport_id=sport_id))
     
     if request.method == 'POST':
-        new_team = Teams(name=request.form['name'],
+        new_team = Teams(name=request.form['name'] or "New Team",
                          league=request.form['league'],
                          wins=request.form['wins'] or 0,
-                         losses=request.form['losses'] or 0, 
+                         losses=request.form['losses'] or 0,
+                         logo=request.form['logo-web'] or ("/static/images/" + request.form['logo-file']),
                          created_date=datetime.datetime.now(), 
                          sport_id=sport_id,
                          user_id=login_session['user_id'])
@@ -438,6 +468,9 @@ def edit_team(sport_id, team_id):
             edited_team.league = request.form['league']
             edited_team.wins = request.form['wins']
             edited_team.losses = request.form['losses']
+            logo = logo_picker(request)
+            if logo:
+                edited_team.logo = logo
             session.add(edited_team)
             session.commit()
             flash("Sport successfully edited: {0}".format(edited_team.name), 'flash-success')
