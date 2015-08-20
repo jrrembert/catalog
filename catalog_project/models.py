@@ -122,30 +122,3 @@ class Teams(db.Model):
             'sport_id': self.sport_id,
             'logo': self.logo
         }
-
-
-# # class Leagues(Base):
-# #     __tablename__ = 'leagues'
-
-# #     id = db.Column(db.Integer, primary_key=True)
-# #     name = db.Column(db.String(100), nullable=False)
-# #     user = relationship(Users)
-# #     user_id = db.Column(db.Integer, ForeignKey('users.id'))
-
-
-# # class Players(Base:)
-# #     __tablename__ = 'players'
-
-# #     id = db.Column(db.Integer, primary_key=True)
-# #     name = db.Column(db.String(100), nullable=False)
-# #     user = relationship(Users)
-# #     user_id = db.Column(db.Integer, ForeignKey('users.id')) 
-
-
-# Create an engine that stores data in the local directory's
-# sqlalchemy_example.db file.
-# engine = create_engine(app.config['SQLALCHEMY_DATABASE_URI'])
- 
-# Create all tables in the engine. This is equivalent to "Create Table"
-# statements in raw SQL.
-# Base.metadata.create_all(engine)
